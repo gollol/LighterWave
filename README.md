@@ -1,6 +1,6 @@
 # LighterWave
 
-LighterWave is a fork of [Saarland University's path tracer](https://graphics.cg.uni-saarland.de/courses/cg1-2023/index.html) lightwave, which we extended to the presented version as part of the seminar [Advanced Rendering Techniques (ART)](https://graphics.cg.uni-saarland.de/courses/art-2024/index.html) in the 2024 summer semester. Due to time constraints, there are still some problems but most of the upcoming functionality works.
+LighterWave is a fork of [Saarland University's path tracer](https://graphics.cg.uni-saarland.de/courses/cg1-2023/index.html) lightwave, which we extended to the presented version as part of the seminar [Advanced Rendering Techniques (ART)](https://graphics.cg.uni-saarland.de/courses/art-2024/index.html) during the 2024 summer semester. Due to time constraints, there are still some problems for some features but most of the upcoming functionality works.
 
 ## Features provided by lightwave
 Out of the box, lightwave is unable to produce any images, as it lacks all necessary rendering functionality to do so.
