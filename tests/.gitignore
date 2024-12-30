@@ -1,0 +1,4 @@
+*.exr
+!*_ref.exr
+!textures/*.exr
+*.blend1

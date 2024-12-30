@@ -1,0 +1,42 @@
+<test type="image" id="camera_rotating">
+    <scene id="motion_blur">
+        <camera type="perspective" id="camera">
+            <integer name="width" value="512"/>
+            <integer name="height" value="512"/>
+
+            <string name="fovAxis" value="x"/>
+            <float name="fov" value="30"/>
+
+            <transform type="animated">
+                <transform>
+                    <translate z="-5"/>
+                </transform>
+                <transform>
+                    <translate z="-5"/>
+                    <rotate axis="0,0,1" angle="-3"/>
+                </transform>
+            </transform>
+
+        </camera>
+
+        <light type="envmap" weight="0">
+            <texture type="constant" value="1"/>
+        </light>
+
+        <instance>
+            <shape type="sphere"/>
+            <bsdf type="diffuse">
+                <texture name="albedo" type="checkerboard">
+                    <texture name="color0" type="constant" value="0.9"/>
+                    <texture name="color1" type="constant" value="0.08,0.25,0.70"/>
+                    <texture name="scale" type="constant" value="16,8,0"/>
+                </texture>
+            </bsdf>
+        </instance>
+    </scene>
+    <integrator type="direct">
+        <ref id="motion_blur"/>
+        <image id="camera_rotating"/>
+        <sampler type="independent" count="64"/>
+    </integrator>
+</test>

@@ -1,0 +1,55 @@
+<test type="image" id="glass_floor_pathguiding">
+<scene id="scene">
+  <camera type="perspective">
+    <integer name="width" value="960"/>
+    <integer name="height" value="540"/>
+    <float name="fov" value="39.598"/>
+    <string name="fovAxis" value="x"/>
+    <transform>
+      <matrix value="0.68592,0.32401,-0.65156,1.6599,  0.72768,-0.30542,0.61417,-4.3505,  -4.0113e-09,-0.8954,-0.44527,4.9711,  0,0,0,1"/>
+    </transform>
+  </camera>
+  <instance>
+    <bsdf type="diffuse">
+      <texture name="albedo" type="constant" value="0.70676,0.70676,0.70676"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/Cube_glass_floor.ply"/>
+    <transform>
+      <matrix value="5.497,0,0,0,  0,5.497,0,0,  0,0,5.497,0,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="roughdielectric">
+      <texture name="ior" type="constant" value="1.5"/>
+      <texture name="transmittance" type="constant" value="1,1,1"/>
+      <texture name="reflectance" type="constant" value="1,1,1"/>
+      <texture name="roughness" type="constant" value="0"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/Plane_glass_floor.ply"/>
+    <transform>
+      <matrix value="6.5082,0,0,0,  0,6.5082,0,0,  0,0,6.5082,0,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <emission type="lambertian">
+      <texture name="emission" type="constant" value="50,50,50"/>
+    </emission>
+    <shape type="mesh" filename="meshes/Plane.001_glass_floor.ply"/>
+    <transform>
+      <scale value="0.25"/>
+      <matrix value="1,0,0,-4.3866,  0,1,0,4.3044,  0,0,1,-5.3469,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="envmap">
+    <texture type="constant" value="0.050876,0.050876,0.050876"/>
+    <transform>
+      <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+    </transform>
+  </light>
+</scene>
+<integrator type="RegularisedPathGuider" depth="3" budget="128" mis="true" neeType="always" bsdfSamplingFractionLoss="kl">
+  <ref id="scene"/>
+  <image id="glass_floor_pathguiding"/>
+  <sampler type="independent" count="64"/>
+</integrator>
+</test>

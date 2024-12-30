@@ -1,0 +1,125 @@
+<!-- F/1.4 Petzval US3255664 -->
+
+<scene id="scene">
+    <camera type="realistic" id="camera">
+        <integer name="width" value="512"/>
+        <integer name="height" value="512"/>
+
+        <float name="sensorWidth" value="24"/>
+        <float name="sensorHeight" value="24"/>
+
+        <float name="focusDistance" value="20"/>
+
+        <string name="pathToSchematic"
+                value="../schematics/petzval.svg"/>
+
+        <lens type="spherical" id="lens1">
+            <float name="thickness" value="17.322"/>
+            <float name="eta" value="1.6725"/>
+            <float name="apertureRadius" value="16.5"/>
+            <float name="curvatureRadius" value="-55.142"/>
+        </lens>
+        <lens type="spherical" id="lens2">
+            <float name="thickness" value="2.6"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="16.5"/>
+            <float name="curvatureRadius" value="78.525"/>
+        </lens>
+        <lens type="spherical" id="lens3">
+            <float name="thickness" value="8.027"/>
+            <float name="eta" value="1.6201"/>
+            <float name="apertureRadius" value="28.5"/>
+            <float name="curvatureRadius" value="-152.16"/>
+        </lens>
+        <lens type="spherical" id="lens4">
+            <float name="thickness" value="9.6"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="28.5"/>
+            <float name="curvatureRadius" value="-53.078"/>
+        </lens>
+        <lens type="spherical" id="lens5">
+            <float name="thickness" value="0.6"/>
+            <float name="eta" value="1.6201"/>
+            <float name="apertureRadius" value="28.5"/>
+            <float name="curvatureRadius" value="419.26"/>
+        </lens>
+        <lens type="spherical" id="lens6">
+            <float name="thickness" value="9.2"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="28.5"/>
+            <float name="curvatureRadius" value="-89.189"/>
+        </lens>
+        <lens type="spherical" id="lens7">
+            <float name="thickness" value="63.402"/>
+            <float name="eta" value="1.603"/>
+            <float name="apertureRadius" value="36.5"/>
+            <float name="curvatureRadius" value="-360.98"/>
+        </lens>
+        <lens type="spherical" id="lens8">
+            <float name="thickness" value="13.2"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="36.5"/>
+            <float name="curvatureRadius" value="-86.99"/>
+        </lens>
+        <lens type="spherical" id="lens9">
+            <float name="thickness" value="0.6"/>
+            <float name="eta" value="1.7281"/>
+            <float name="apertureRadius" value="36.5"/>
+            <float name="curvatureRadius" value="-361.95"/>
+        </lens>
+        <lens type="spherical" id="lens10">
+            <float name="thickness" value="5"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="36.5"/>
+            <float name="curvatureRadius" value="159.7"/>
+        </lens>
+        <lens type="spherical" id="lens11">
+            <float name="thickness" value="2.315"/>
+            <float name="eta" value="1.6404"/>
+            <float name="apertureRadius" value="36.5"/>
+            <float name="curvatureRadius" value="345.7"/>
+        </lens>
+        <lens type="spherical" id="lens12">
+            <float name="thickness" value="13"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="36.5"/>
+            <float name="curvatureRadius" value="-108.06"/>
+        </lens>
+
+        <transform>
+            <rotate axis="1,0,0" angle="-2.5"/>
+            <translate z="-5"/>
+        </transform>
+    </camera>
+
+    <light type="envmap" weight="0">
+        <texture type="constant" value="1"/>
+    </light>
+
+    <instance>
+        <shape type="mesh" filename="../../meshes/bunny.ply"/>
+        <bsdf type="diffuse">
+            <texture name="albedo" type="constant" value="0.1,0.3,0.7"/>
+        </bsdf>
+        <transform>
+            <rotate axis="1,0,0" angle="90"/>
+            <translate x="0.18" y="1.03"/>
+        </transform>
+    </instance>
+    <instance>
+        <shape type="rectangle"/>
+        <bsdf type="diffuse">
+            <texture name="albedo" type="checkerboard" scale="40,40" color0="0.1,0.1,0.1" color1="0.9"/>
+        </bsdf>
+        <transform>
+            <rotate axis="1,0,0" angle="90"/>
+            <scale value="30"/>
+            <translate y="1"/>
+        </transform>
+    </instance>
+</scene>
+<integrator type="direct">
+    <ref id="scene"/>
+    <image id="bunny_petzval"/>
+    <sampler type="independent" count="256"/>
+</integrator>

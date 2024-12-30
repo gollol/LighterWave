@@ -1,0 +1,58 @@
+<scene id="scene">
+  <camera type="perspective">
+    <integer name="width" value="512"/>
+    <integer name="height" value="512"/>
+    <float name="fov" value="39.598"/>
+    <string name="fovAxis" value="y"/>
+    <transform>
+      <matrix value="1,0,0,0,  0,-1,0,0,  0,0,-1,3,  0,0,0,1"/>
+    </transform>
+  </camera>
+  <light type="area">
+    <instance>
+      <shape type="sphere"/>
+      <transform>
+        <scale value="0.1"/>
+        <translate x="4.0762" y="1.0055" z="5.9039"/>
+      </transform>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="2533,2533,2533"/>
+      </emission>
+    </instance>
+  </light>
+  <instance>
+    <emission type="lambertian">
+      <texture name="emission" type="map_range" data_type="FLOAT" interpolation_type="LINEAR" clamp="true">
+        <texture name="value" type="noise" noisetype="FBM" normalize="true" colorful="false" dimensions="2D">
+          <texture name="scale" type="constant" value="5"/>
+          <texture name="detail" type="constant" value="2"/>
+          <texture name="roughness" type="constant" value="0.5"/>
+          <texture name="lacunarity" type="constant" value="2"/>
+          <texture name="distortion" type="constant" value="0"/>
+        </texture>
+        <texture name="fromMin" type="constant" value="0"/>
+        <texture name="fromMax" type="constant" value="1"/>
+        <texture name="toMin" type="constant" value="0.4"/>
+        <texture name="toMax" type="constant" value="0.6"/>
+      </texture>
+    </emission>
+    <shape type="mesh" filename="meshes/Plane.ply"/>
+    <transform>
+      <matrix value="1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="envmap">
+    <texture type="constant" value="0.050876,0.050876,0.050876"/>
+    <transform>
+      <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+    </transform>
+  </light>
+</scene>
+
+<test type="image" id="noise" me="5e-4">
+  <integrator type="pathtracer" depth="10" samplingmode="MIS">
+    <ref id="scene"/>
+    <image id="noisy"/>
+    <sampler type="independent" count="64"/>
+  </integrator>
+</test>

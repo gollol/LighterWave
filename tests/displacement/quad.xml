@@ -1,0 +1,38 @@
+<test type="image" id="displaced_quad">
+    <scene id="scene">
+      <camera type="perspective">
+        <integer name="width" value="512"/>
+        <integer name="height" value="512"/>
+        <float name="fov" value="36.87"/>
+        <string name="fovAxis" value="y"/>
+        <transform>
+          <matrix value="0.65169,0.39579,-0.64703,3.2479,  0.75838,-0.35423,0.54717,-2.7466,  -0.012634,-0.84728,-0.531,2.6655,  0,0,0,1"/>
+        </transform>
+      </camera>
+      <instance>
+        <bsdf type="diffuse">
+          <texture name="albedo" type="image" filename="textures/TCom_Rock_CliffLayered_1.5x1.5_2K_albedo.png" exposure="1"/>
+        </bsdf>
+        <shape type="displaced" filename="meshes/Quad.ply" lod="0" intersection="triangulation">
+          <texture name="height" type="mipImage" linear="true" filename="textures/TCom_Rock_CliffLayered_1.5x1.5_2K_height.png"/>
+          <texture name="offset" type="constant" value="0.0"/>
+          <texture name="scale" type="constant" value="0.3"/>
+        </shape>
+        <transform>
+          <matrix value="1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1"/>
+        </transform>
+        <texture name="normal" type="image" linear="true" filename="textures/TCom_Rock_CliffLayered_1.5x1.5_2K_normal.png"/>
+      </instance>
+      <light type="envmap">
+        <texture type="constant" value="0.650876,0.650876,0.650876"/>
+        <transform>
+          <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+        </transform>
+      </light>
+    </scene>
+    <integrator type="pathtracer">
+      <ref id="scene"/>
+      <image id="normals"/>
+      <sampler type="independent" count="32"/>
+    </integrator>
+</test>

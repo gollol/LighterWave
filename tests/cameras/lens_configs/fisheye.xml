@@ -1,0 +1,155 @@
+<!-- # "F/2.8 180deg FISHEYE USP4256373" -->
+<scene id="scene">
+    <camera type="realistic" id="camera">
+        <integer name="width" value="512"/>
+        <integer name="height" value="512"/>
+
+        <float name="sensorWidth" value="24"/>
+        <float name="sensorHeight" value="24"/>
+
+        <float name="focusDistance" value="5"/>
+
+        <string name="pathToSchematic"
+                value="../schematics/fisheye.svg"/>
+
+        <lens type="spherical" id="lens1">
+            <float name="thickness" value="224.05"/>
+            <float name="eta" value="1.805"/>
+            <float name="apertureRadius" value="56"/>
+            <float name="curvatureRadius" value="127.49"/>
+        </lens>
+        <lens type="spherical" id="lens2">
+            <float name="thickness" value="6.18"/>
+            <float name="eta" value="1.4874"/>
+            <float name="apertureRadius" value="52"/>
+            <float name="curvatureRadius" value="63.5"/>
+        </lens>
+        <lens type="spherical" id="lens3">
+            <float name="thickness" value="30.89"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="52"/>
+            <float name="curvatureRadius" value="-661.22"/>
+        </lens>
+        <lens type="spherical" id="lens4">
+            <float name="thickness" value="0.62"/>
+            <float name="eta" value="1.497"/>
+            <float name="apertureRadius" value="50"/>
+            <float name="curvatureRadius" value="113.8"/>
+        </lens>
+        <lens type="spherical" id="lens5">
+            <float name="thickness" value="21.01"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="44.5"/>
+            <float name="curvatureRadius" value="5285.7"/>
+        </lens>
+        <lens type="spherical" id="lens6">
+            <float name="thickness" value="10"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="42.7"/>
+            <float name="curvatureRadius" value="0"/>
+        </lens>
+        <lens type="spherical" id="lens7">
+            <float name="thickness" value="8.53"/>
+            <float name="eta" value="1.5184"/>
+            <float name="apertureRadius" value="50"/>
+            <float name="curvatureRadius" value="0"/>
+        </lens>
+        <lens type="spherical" id="lens8">
+            <float name="thickness" value="9.27"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="50"/>
+            <float name="curvatureRadius" value="0"/>
+        </lens>
+        <lens type="spherical" id="lens9">
+            <float name="thickness" value="3.09"/>
+            <float name="eta" value="1.6674"/>
+            <float name="apertureRadius" value="54"/>
+            <float name="curvatureRadius" value="346.89"/>
+        </lens>
+        <lens type="spherical" id="lens10">
+            <float name="thickness" value="24.71"/>
+            <float name="eta" value="1.6934"/>
+            <float name="apertureRadius" value="54"/>
+            <float name="curvatureRadius" value="-78.23"/>
+        </lens>
+        <lens type="spherical" id="lens11">
+            <float name="thickness" value="6.18"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="58"/>
+            <float name="curvatureRadius" value="158.68"/>
+        </lens>
+        <lens type="spherical" id="lens12">
+            <float name="thickness" value="4.32"/>
+            <float name="eta" value="1.6688"/>
+            <float name="apertureRadius" value="64"/>
+            <float name="curvatureRadius" value="267.86"/>
+        </lens>
+        <lens type="spherical" id="lens13">
+            <float name="thickness" value="34.6"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="64"/>
+            <float name="curvatureRadius" value="-96.05"/>
+        </lens>
+        <lens type="spherical" id="lens14">
+            <float name="thickness" value="21.62"/>
+            <float name="eta" value="1.6203"/>
+            <float name="apertureRadius" value="66"/>
+            <float name="curvatureRadius" value="-78.4"/>
+        </lens>
+        <lens type="spherical" id="lens15">
+            <float name="thickness" value="9.81"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="75"/>
+            <float name="curvatureRadius" value="-342.8"/>
+        </lens>
+        <lens type="spherical" id="lens16">
+            <float name="thickness" value="57.53"/>
+            <float name="eta" value="1.7129"/>
+            <float name="apertureRadius" value="68"/>
+            <float name="curvatureRadius" value="-68.23"/>
+        </lens>
+        <lens type="spherical" id="lens17">
+            <float name="thickness" value="13.08"/>
+            <float name="eta" value="1"/>
+            <float name="apertureRadius" value="160"/>
+            <float name="curvatureRadius" value="-417.94"/>
+        </lens>
+
+        <transform>
+            <rotate axis="1,0,0" angle="-2.5"/>
+            <translate z="-5"/>
+        </transform>
+    </camera>
+
+    <light type="envmap" weight="0">
+        <texture type="constant" value="1"/>
+    </light>
+
+    <instance>
+        <shape type="mesh" filename="../../meshes/bunny.ply"/>
+        <bsdf type="diffuse">
+            <texture name="albedo" type="constant" value="0.1,0.3,0.7"/>
+        </bsdf>
+        <transform>
+            <rotate axis="1,0,0" angle="90"/>
+            <translate x="0.18" y="1.03"/>
+        </transform>
+    </instance>
+    <instance>
+        <shape type="rectangle"/>
+        <bsdf type="diffuse">
+            <texture name="albedo" type="checkerboard" scale="40,40" color0="0.1,0.1,0.1" color1="0.9"/>
+        </bsdf>
+        <transform>
+            <rotate axis="1,0,0" angle="90"/>
+            <scale value="30"/>
+            <translate y="1"/>
+        </transform>
+    </instance>
+</scene>
+<integrator type="direct">
+    <ref id="scene"/>
+    <image id="bunny_fisheye"/>
+    <sampler type="independent" count="256"/>
+</integrator>
+

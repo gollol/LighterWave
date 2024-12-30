@@ -1,0 +1,64 @@
+<test type="image" id="envirment_map">
+  <scene id="scene">
+    <camera type="perspective">
+      <integer name="width" value="960"/>
+      <integer name="height" value="540"/>
+      <float name="fov" value="39.598"/>
+      <string name="fovAxis" value="x"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,-0.21202,0.97727,-15.308,  0,-0.97727,-0.21202,5.2877,  0,0,0,1"/>
+      </transform>
+    </camera>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="constant" value="0.37712,0.37712,0.37712"/>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Plane.ply"/>
+      <transform>
+        <matrix value="6.8483,0,0,0,  0,6.8483,0,0,  0,0,6.8483,0,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="constant" value="0.8,0.8,0.8"/>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Suzanne.001.ply"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="roughdielectric">
+        <texture name="ior" type="constant" value="1.5"/>
+        <texture name="transmittance" type="constant" value="1,1,1"/>
+        <texture name="reflectance" type="constant" value="1,1,1"/>
+        <texture name="roughness" type="constant" value="0.2"/>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Suzanne.002.ply"/>
+      <transform>
+        <matrix value="1,0,0,4,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+        <bsdf type="roughconductor">
+          <texture name="reflectance" type="constant" value="0.8,0.8,0.8"/>
+          <texture name="roughness" type="constant" value="0.2"/>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Suzanne.003.ply"/>
+      <transform>
+        <matrix value="1,0,0,-4,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <light type="warp2devnmap">
+      <float name="mis_compensation_strength" value="0.5"/>
+      <texture type="image" filename="../textures/kloofendal_overcast_1k.hdr" exposure="0.5" border="clamp"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+      </transform>
+    </light>
+  </scene>
+  <integrator type="pathtracer" depth="13" samplingmode="MIS">
+    <ref id="scene"/>
+    <sampler type="independent" count="64"/>
+  </integrator>
+</test>

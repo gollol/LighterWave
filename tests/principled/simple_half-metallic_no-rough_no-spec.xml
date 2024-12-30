@@ -1,0 +1,107 @@
+<test type="image" id="simple_full-metallic_half-rough_no-spec">
+  <scene id="scene">
+    <camera type="perspective">
+      <integer name="width" value="1024" />
+      <integer name="height" value="1024" />
+      <float name="fov" value="39.598" />
+      <string name="fovAxis" value="y" />
+      <transform>
+        <matrix value="1,0,0,0,  0,3.4229e-08,1,-6,  0,-1,3.4229e-08,0,  0,0,0,1" />
+      </transform>
+    </camera>
+    <instance>
+      <emission type="lambertian">
+        <texture name="emission" type="checkerboard">
+          <texture name="color0" type="constant" value="0.048172,0.048172,0.048172"/>
+          <texture name="color1" type="constant" value="0.7991,0.7991,0.7991"/>
+          <texture name="scale" type="constant" value="30"/>
+        </texture>
+      </emission>
+      <shape type="mesh" filename="meshes/Plane.001.ply" />
+      <transform>
+        <matrix value="20,0,0,0,  0,-8.7423e-07,-1,5,  0,20,-4.3711e-08,0,  0,0,0,1" />
+      </transform>
+    </instance>
+    <instance>
+      <emission type="lambertian">
+        <texture name="emission" type="image" filename="textures/uds_logo.png" />
+      </emission>
+      <shape type="mesh" filename="meshes/Plane.002.ply" />
+      <transform>
+        <matrix
+          value="-20,1.32e-13,1.51e-07,0,  3.0199e-06,8.7423e-07,1,-35,  0,20,-4.3711e-08,0,  0,0,0,1" />
+      </transform>
+    </instance>
+    <instance>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="0.8,0.8,0.8" />
+      </emission>
+      <shape type="mesh" filename="meshes/Plane.003.ply" />
+      <transform>
+        <matrix
+          value="3.8941e-06,-8.7423e-07,-1,20,  -20,-1.7022e-13,-1.9471e-07,-15,  0,20,-4.3711e-08,0,  0,0,0,1" />
+      </transform>
+    </instance>
+    <instance>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="0.8,0.8,0.8" />
+      </emission>
+      <shape type="mesh" filename="meshes/Plane.004.ply" />
+      <transform>
+        <matrix
+          value="3.8941e-06,8.7423e-07,1,-20,  20,-1.7022e-13,-1.9471e-07,-15,  0,20,-4.3711e-08,0,  0,0,0,1" />
+      </transform>
+    </instance>
+    <instance>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="0.8,0.8,0.8" />
+      </emission>
+      <shape type="mesh" filename="meshes/Plane.005.ply" />
+      <transform>
+        <matrix value="20,0,0,0,  0,20,0,-15,  0,0,1,-20,  0,0,0,1" />
+      </transform>
+    </instance>
+    <instance>
+      <emission type="lambertian">
+        <texture name="emission" type="constant" value="0.8,0.8,0.8" />
+      </emission>
+      <shape type="mesh" filename="meshes/Plane.006.ply" />
+      <transform>
+        <matrix value="20,0,0,0,  0,-20,8.7423e-08,-15,  0,-1.7485e-06,-1,20,  0,0,0,1" />
+      </transform>
+    </instance>
+    <light type="area">
+      <instance id="pointlight">
+        <shape type="sphere" />
+        <transform>
+          <scale value="0.5" />
+          <translate x="5" y="-5" z="5" />
+        </transform>
+        <emission type="lambertian">
+          <texture name="emission" type="constant" value="101.32,101.32,101.32" />
+        </emission>
+      </instance>
+    </light>
+    <ref id="pointlight"/>
+    <instance>
+      <bsdf type="principled">
+        <texture name="baseColor" type="constant" value="1,1,1" />
+        <texture name="metallic" type="constant" value="0.5" />
+        <texture name="roughness" type="constant" value="0" />
+        <texture name="ior" type="constant" value="1.5" />
+        <texture name="specularLevel" type="constant" value="0" />
+        <texture name="specularTint" type="constant" value="1,1,1" />
+        <texture name="transmission" type="constant" value="0" />
+      </bsdf>
+      <shape type="mesh" filename="meshes/Sphere.012.ply" />
+      <transform>
+        <matrix value="1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1" />
+      </transform>
+    </instance>
+  </scene>
+  <integrator type="pathtracer" depth="9" samplingmode="MIS">
+    <ref id="scene" />
+    <image id="simple_half-metallic_no-rough_no-spec_noisy" />
+    <sampler type="halton" count="128" />
+  </integrator>
+</test>

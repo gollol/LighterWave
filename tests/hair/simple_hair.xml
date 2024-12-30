@@ -1,0 +1,41 @@
+<scene id="scene">
+  <camera type="perspective">
+    <integer name="width" value="512"/>
+    <integer name="height" value="512"/>
+    <float name="fov" value="39.598"/>
+    <string name="fovAxis" value="y"/>
+    <transform>
+      <matrix value="0.65727,-0.021578,0.75335,-6.3427,  -0.75366,-0.018819,0.657,-4.1438,  9.0306e-08,-0.99959,-0.028632,0.08267,  0,0,0,1"/>
+    </transform>
+  </camera>
+  <light type="point" position="-4.692,-7.0926,4.6959" power="1500,1500,1500"/>
+  <instance index="-1">
+    <bsdf type="diffuse">
+      <texture name="albedo" type="constant" value="0.50018,0.080316,1"/>
+    </bsdf>
+    <shape type="mesh" filename="../meshes/IcoSphere1.bob"/>
+    <transform>
+      <matrix value="1,0,0,-3.0529,  0,1,0,-1.3113,  0,0,1,0,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance index="-2">
+    <bsdf type="diffuse">
+      <texture name="albedo" type="constant" value="0,0.80016,0.052954"/>
+    </bsdf>
+    <shape type="fur" rootRadius="0.015" tipRadius="0.0" filename="../meshes/SimpleHair.bob"/>
+    <transform>
+      <matrix value="1,0,0,-3.0529,  0,1,0,-1.3113,  0,0,1,0,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="envmap">
+    <texture type="constant" value="0.050876,0.050876,0.050876"/>
+    <transform>
+      <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+    </transform>
+  </light>
+</scene>
+<integrator type="pathtracer" depth="13" samplingmode="MIS">
+  <ref id="scene"/>
+  <image id="simple_hair"/>
+  <sampler type="independent" count="64"/>
+</integrator>

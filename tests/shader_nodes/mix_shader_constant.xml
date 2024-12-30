@@ -1,0 +1,57 @@
+<test type="image" id="mix_shader_constant">
+  <scene id="scene">
+    <camera type="perspective">
+      <integer name="width" value="1000"/>
+      <integer name="height" value="1000"/>
+      <float name="fov" value="22.62"/>
+      <string name="fovAxis" value="y"/>
+      <transform>
+        <matrix value="0.70711,0.45452,-0.54168,6,  0.70711,-0.45452,0.54168,-6,  -1.6466e-08,-0.76604,-0.64279,7,  0,0,0,1"/>
+      </transform>
+    </camera>
+    <instance>
+      <bsdf type="mix_shader">
+        <texture name="factor" type="constant" value="0.75"/>
+        <bsdf type="principled">
+          <texture name="baseColor" type="checkerboard">
+            <texture name="color0" type="constant" value="0.8"/>
+            <texture name="color1" type="constant" value="0.031496"/>
+            <texture name="scale" type="constant" value="4"/>
+          </texture>
+          <texture name="roughness" type="constant" value="1"/>
+          <texture name="metallic" type="constant" value="0"/>
+          <texture name="specular" type="constant" value="0"/>
+        </bsdf>
+        <bsdf type="conductor">
+          <texture name="reflectance" type="constant" value="0.15,0.8,0.15"/>
+        </bsdf>
+      </bsdf>
+      <shape type="mesh" filename="../meshes/Cube.ply"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <light type="point" position="7,7,5" power="2500,2500,2500"/>
+    <instance>
+      <emission type="lambertian">
+        <texture name="emission" type="image" filename="../textures/uds_logo.png" exposure="10"/>
+      </emission>
+      <shape type="mesh" filename="../meshes/Plane.ply"/>
+      <transform>
+        <matrix value="5,0,0,-10,  0,-5,8.7423e-08,10,  0,-4.3711e-07,-1,10,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <light type="envmap">
+      <texture type="constant" value="0.50498,0.50498,0.50498"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+      </transform>
+    </light>
+  </scene>
+  <integrator type="pathtracer" depth="8">
+    <ref id="scene"/>
+    <image id="noisy"/>
+    <sampler type="independent" count="64"/>
+  </integrator>
+  
+</test>

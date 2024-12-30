@@ -1,0 +1,72 @@
+<test type="image" id="noise_texture_plane">
+  <scene id="scene">
+    <camera type="perspective">
+      <integer name="width" value="1920" />
+      <integer name="height" value="1080" />
+      <float name="fov" value="39.598" />
+      <string name="fovAxis" value="x" />
+      <transform>
+        <matrix value="1,0,0,0,  0,-0.96126,0.27564,-1.5,  0,-0.27564,-0.96126,5,  0,0,0,1" />
+      </transform>
+    </camera>
+    <light type="area">
+      <instance>
+        <shape type="sphere" />
+        <transform>
+          <scale value="0.1" />
+          <translate x="4.0762" y="1.0055" z="5.9039" />
+        </transform>
+        <emission type="lambertian">
+          <texture name="emission" type="constant" value="1000" />
+        </emission>
+      </instance>
+    </light>
+    <instance>
+      <bsdf type="principled">
+        <texture name="baseColor" type="noise" noisetype="FBM" normalize="true" colorful="true"
+          dimensions="2D">
+          <texture name="scale" type="constant" value="5" />
+          <texture name="detail" type="constant" value="3" />
+          <texture name="roughness" type="constant" value="0.75" />
+          <texture name="lacunarity" type="constant" value="4" />
+          <texture name="distortion" type="constant" value="1" />
+        </texture>
+        <texture name="roughness" type="noise" noisetype="FBM" normalize="false" colorful="false"
+          dimensions="2D">
+          <texture name="scale" type="constant" value="10" />
+          <texture name="detail" type="constant" value="2" />
+          <texture name="roughness" type="constant" value="0.5" />
+          <texture name="lacunarity" type="constant" value="2" />
+          <texture name="distortion" type="constant" value="0" />
+        </texture>
+        <texture name="metallic" type="constant" value="0.5" />
+        <texture name="specular" type="constant" value="0" />
+      </bsdf>
+      <shape type="mesh" filename="../meshes/Plane.ply" />
+      <transform>
+        <matrix value="1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1" />
+      </transform>
+    </instance>
+    <instance>
+      <emission type="lambertian">
+        <texture name="emission" type="image" filename="../textures/uds_logo.png"
+          exposure="2" />
+      </emission>
+      <shape type="mesh" filename="../meshes/Cube.001.ply" />
+      <transform>
+        <matrix value="1,0,0,0,  0,1,0,1.8,  0,0,1,4.14,  0,0,0,1" />
+      </transform>
+    </instance>
+    <light type="envmap">
+      <texture type="constant" value="0.3,0.3,0.3" />
+      <transform>
+        <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1" />
+      </transform>
+    </light>
+  </scene>
+  <integrator type="pathtracer" depth="7">
+    <ref id="scene" />
+    <image id="noisy" />
+    <sampler type="independent" count="256" />
+  </integrator>
+</test>

@@ -1,0 +1,52 @@
+<test type="image" id="hue_saturation_checker">
+  <scene id="scene">
+    <camera type="perspective">
+      <integer name="width" value="1000" />
+      <integer name="height" value="1000" />
+      <float name="fov" value="22.62" />
+      <string name="fovAxis" value="y" />
+      <transform>
+        <matrix
+          value="0.70711,0.45452,-0.54168,6,  0.70711,-0.45452,0.54168,-6,  -1.6466e-08,-0.76604,-0.64279,7,  0,0,0,1" />
+      </transform>
+    </camera>
+    <instance>
+      <bsdf type="principled">
+        <texture name="baseColor" type="hue_saturation">
+          <texture name="hue" type="checkerboard">
+            <texture name="color0" type="constant" value="0.30101"/>
+            <texture name="color1" type="constant" value="0.5"/>
+            <texture name="scale" type="constant" value="2"/>
+          </texture>
+          <texture name="saturation" type="checkerboard">
+            <texture name="color0" type="constant" value="0"/>
+            <texture name="color1" type="constant" value="1"/>
+            <texture name="scale" type="constant" value="3"/>
+          </texture>
+          <texture name="value" type="constant" value="1" />
+          <texture name="factor" type="constant" value="1" />
+          <texture type="image" filename="../textures/uds_logo.png" />
+        </texture>
+        <texture name="roughness" type="constant" value="1" />
+        <texture name="metallic" type="constant" value="0" />
+        <texture name="specular" type="constant" value="0" />
+      </bsdf>
+      <shape type="mesh" filename="../meshes/CubeUVRotated.ply" />
+      <transform>
+        <matrix value="1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1" />
+      </transform>
+    </instance>
+    <light type="point" position="7,7,5" power="2500,2500,2500" />
+    <light type="envmap">
+      <texture type="constant" value="0.50498,0.50498,0.50498" />
+      <transform>
+        <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1" />
+      </transform>
+    </light>
+  </scene>
+  <integrator type="pathtracer" depth="13">
+    <ref id="scene" />
+    <image id="noisy" />
+    <sampler type="independent" count="256" />
+  </integrator>
+</test>

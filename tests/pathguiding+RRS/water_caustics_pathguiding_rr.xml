@@ -1,0 +1,65 @@
+<test type="image" id="water_caustics_pathguiding_rr" me="2e-3">
+<scene id="scene">
+  <camera type="perspective">
+    <integer name="width" value="1080"/>
+    <integer name="height" value="1080"/>
+    <float name="fov" value="39.598"/>
+    <string name="fovAxis" value="y"/>
+    <transform>
+      <matrix value="1,0,0,0,  0,-0.12533,0.99211,-69.672,  0,-0.99211,-0.12533,4.5019,  0,0,0,1"/>
+    </transform>
+  </camera>
+  <instance>
+    <bsdf type="diffuse">
+      <texture name="albedo" type="constant" value="0.8"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/Cube_water-caustics.ply"/>
+    <transform>
+      <matrix value="19.321,0,0,0,  0,19.321,0,-0.81114,  0,0,19.321,0,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="dielectric">
+      <texture name="ior" type="constant" value="1.325"/>
+      <texture name="transmittance" type="constant" value="0.43017,0.78842,1"/>
+      <texture name="reflectance" type="constant" value="0.43017,0.78842,1"/>
+    </bsdf>
+    <shape type="mesh" filename="meshes/Plane_water-caustics.ply"/>
+    <transform>
+      <matrix value="0.80934,0,0,0,  0,0.80934,0,0,  0,0,0.80934,5.8551,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <instance>
+    <bsdf type="roughconductor">
+                    <texture name="reflectance" type="constant" value="0.8,0.21,0.024"/>
+                    <texture name="roughness" type="constant" value="0.2"/>
+                </bsdf>
+    <shape type="mesh" filename="meshes/Suzanne_water-caustics.ply"/>
+    <transform>
+      <matrix value="3.259,-2.6182,-2.3635,-5.145,  3.5245,2.2899,2.3232,10.723,  -0.13959,-3.3112,3.4755,-16.616,  0,0,0,1"/>
+    </transform>
+  </instance>
+
+  
+  <instance id="lightt">
+    <emission type="lambertian">
+      <texture name="emission" type="constant" value="2304,2304,2304"/>
+    </emission>
+    <shape type="rectangle"/>
+    <transform>
+      <scale value="0.08333"/>
+      <matrix value="-1.6527,1.0445,0.85689,-12.357,  0.92728,1.8616,-0.48077,11.783,  -0.98255,0,-1.8951,16.438,  0,0,0,1"/>
+    </transform>
+  </instance>
+  <light type="area">
+    <ref id="lightt" />
+  </light>
+</scene>
+
+
+<integrator type="RegularisedPathGuider" depth="8" budget="128" mis="true" neeType="always" rrsMethod="classic" rrDepth="5">
+  <ref id="scene"/>
+  <image id="water_caustics_pathguiding_rr"/>
+  <sampler type="independent" count="128"/>
+</integrator>
+</test>

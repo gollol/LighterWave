@@ -1,0 +1,52 @@
+<test type="image" id="separate_color_simple">
+  <scene id="scene">
+    <camera type="perspective">
+      <integer name="width" value="1920" />
+      <integer name="height" value="1080" />
+      <float name="fov" value="39.598" />
+      <string name="fovAxis" value="x" />
+      <transform>
+        <matrix
+          value="0.68592,0.32401,-0.65156,7.3589,  0.72768,-0.30542,0.61417,-6.9258,  -4.0113e-09,-0.8954,-0.44527,4.9583,  0,0,0,1" />
+      </transform>
+    </camera>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="separate" component="r" convert="NONE">
+          <texture type="checkerboard">
+            <texture name="color0" type="constant" value="1,0,0"/>
+            <texture name="color1" type="constant" value="0,0,1"/>
+            <texture name="scale" type="constant" value="5"/>
+          </texture>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="../meshes/Cube.ply" />
+      <transform>
+        <matrix value="1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1" />
+      </transform>
+    </instance>
+    <light type="area">
+      <instance>
+        <shape type="sphere" />
+        <transform>
+          <scale value="0.1" />
+          <translate x="4.0762" y="1.0055" z="5.9039" />
+        </transform>
+        <emission type="lambertian">
+          <texture name="emission" type="constant" value="2533,2533,2533" />
+        </emission>
+      </instance>
+    </light>
+    <light type="envmap">
+      <texture type="constant" value="0,0.32314,0" />
+      <transform>
+        <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1" />
+      </transform>
+    </light>
+  </scene>
+  <integrator type="pathtracer" depth="9" samplingmode="BSDF">
+    <ref id="scene" />
+    <image id="separate_color_simple" />
+    <sampler type="independent" count="64" />
+  </integrator>
+</test>

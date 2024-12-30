@@ -1,0 +1,135 @@
+<test type="image" id="math">
+  <scene id="scene">
+    <camera type="perspective">
+      <integer name="width" value="2048"/>
+      <integer name="height" value="512"/>
+      <float name="fov" value="39.598"/>
+      <string name="fovAxis" value="x"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,-0.28302,0.95911,-24.967,  0,-0.95911,-0.28302,8.6143,  0,0,0,1"/>
+      </transform>
+    </camera>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="math" operation="ADD" clamp="false">
+          <texture name="value" type="constant" value="0.2"/>
+          <texture name="value_001" type="constant" value="0.8"/>
+          <texture name="value_002" type="constant" value="0.5"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.bob"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <light type="area">
+      <instance>
+        <shape type="sphere"/>
+        <transform>
+          <scale value="0.1"/>
+          <translate x="4.0762" y="1.0055" z="5.9039"/>
+        </transform>
+        <emission type="lambertian">
+          <texture name="emission" type="constant" value="2533,2533,2533"/>
+        </emission>
+      </instance>
+    </light>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="constant" value="0.8"/>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Plane.bob"/>
+      <transform>
+        <matrix value="21.605,0,0,0,  0,21.605,0,0,  0,0,21.605,0,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="math" operation="MULTIPLY" clamp="false">
+          <texture name="value" type="constant" value="0.4"/>
+          <texture name="value_001" type="constant" value="0.6"/>
+          <texture name="value_002" type="constant" value="0.5"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.001.bob"/>
+      <transform>
+        <matrix value="1,0,0,3,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="math" operation="POWER" clamp="false">
+          <texture name="value" type="constant" value="0.7"/>
+          <texture name="value_001" type="constant" value="1.5"/>
+          <texture name="value_002" type="constant" value="0.5"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.002.bob"/>
+      <transform>
+        <matrix value="1,0,0,6,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="math" operation="MINIMUM" clamp="false">
+          <texture name="value" type="constant" value="0.2"/>
+          <texture name="value_001" type="constant" value="0.8"/>
+          <texture name="value_002" type="constant" value="0.5"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.003.bob"/>
+      <transform>
+        <matrix value="1,0,0,-3,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="math" operation="MAXIMUM" clamp="false">
+          <texture name="value" type="constant" value="0.2"/>
+          <texture name="value_001" type="constant" value="0.8"/>
+          <texture name="value_002" type="constant" value="0.5"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.004.bob"/>
+      <transform>
+        <matrix value="1,0,0,-6,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="math" operation="MULTIPLY_ADD" clamp="true">
+          <texture name="value" type="constant" value="0.2"/>
+          <texture name="value_001" type="constant" value="0.4"/>
+          <texture name="value_002" type="constant" value="0.6"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.005.bob"/>
+      <transform>
+        <matrix value="1,0,0,-9,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="math" operation="SUBTRACT" clamp="false">
+          <texture name="value" type="constant" value="0.9"/>
+          <texture name="value_001" type="constant" value="-0.4"/>
+          <texture name="value_002" type="constant" value="0.5"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.006.bob"/>
+      <transform>
+        <matrix value="1,0,0,9,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <light type="envmap">
+      <texture type="constant" value="0.050876,0.050876,0.050876"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+      </transform>
+    </light>
+  </scene>
+  <integrator type="pathtracer" depth="13" samplingmode="MIS">
+    <ref id="scene"/>
+    <sampler type="independent" count="512"/>
+  </integrator>
+</test>

@@ -1,0 +1,40 @@
+<test type="image" id="displaced_triangle">
+    <scene id="scene">
+      <camera type="perspective">
+        <integer name="width" value="512"/>
+        <integer name="height" value="512"/>
+        <float name="fov" value="23.12"/>
+        <string name="fovAxis" value="y"/>
+        <transform>
+          <matrix value="0.93909,0.17104,-0.29809,1.4885,  0.34347,-0.49658,0.79714,-4.8592,  -0.011683,-0.85097,-0.52508,3.1279,  0,0,0,1"/>
+        </transform>
+      </camera>
+      <instance>
+        <bsdf type="principled">
+          <texture name="baseColor" type="image" filename="textures/triangle-height.png"/>
+          <texture name="roughness" type="constant" value="0.5"/>
+          <texture name="metallic" type="constant" value="0"/>
+          <texture name="specular" type="constant" value="0"/>
+        </bsdf>
+        <shape type="displaced" filename="meshes/Triangle.ply" scaling="0.5" lod="0" intersection="box">
+          <texture name="height" type="mipImage" linear="true" filter="nearest" border="clamp" filename="textures/triangle-height.png"/>
+          <texture name="offset" type="constant" value="0.5"/>
+          <texture name="scale" type="constant" value="0.5"/>
+        </shape>
+        <transform>
+          <matrix value="1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1"/>
+        </transform>
+      </instance>
+      <light type="envmap">
+        <texture type="constant" value="0.050876,0.050876,0.050876"/>
+        <transform>
+          <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+        </transform>
+      </light>
+    </scene>
+    <integrator type="aov" variable="normals">
+      <ref id="scene"/>
+      <image id="normals"/>
+      <sampler type="independent" count="1"/>
+    </integrator>
+</test>

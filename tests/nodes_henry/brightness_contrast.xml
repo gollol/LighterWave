@@ -1,0 +1,48 @@
+<test type="image" id="brightness_contrast">
+  <scene id="scene">
+    <camera type="perspective">
+      <integer name="width" value="512"/>
+      <integer name="height" value="512"/>
+      <float name="fov" value="39.598"/>
+      <string name="fovAxis" value="y"/>
+      <transform>
+        <matrix value="0.68592,0.32401,-0.65156,7.3589,  0.72768,-0.30542,0.61417,-6.9258,  -4.0113e-09,-0.8954,-0.44527,4.9583,  0,0,0,1"/>
+      </transform>
+    </camera>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="brightnesscontrast">
+          <texture name="bright" type="constant" value="0.4"/>
+          <texture name="contrast" type="constant" value="0.6"/>
+          <texture type="constant" value="1,0.097608,0.9589"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.bob"/>
+      <transform>
+        <matrix value="1.6798,0,0,0,  0,1.6798,0,0,  0,0,1.6798,0,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <light type="area">
+      <instance>
+        <shape type="sphere"/>
+        <transform>
+          <scale value="0.1"/>
+          <translate x="4.0762" y="1.0055" z="5.9039"/>
+        </transform>
+        <emission type="lambertian">
+          <texture name="emission" type="constant" value="2533,2533,2533"/>
+        </emission>
+      </instance>
+    </light>
+    <light type="envmap">
+      <texture type="constant" value="0.050876,0.050876,0.050876"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+      </transform>
+    </light>
+  </scene>
+  <integrator type="pathtracer" depth="13" samplingmode="NEE">
+    <ref id="scene"/>
+    <sampler type="independent" count="256"/>
+  </integrator>
+</test>

@@ -1,0 +1,170 @@
+<test type="image" id="mix">
+  <scene id="scene">
+    <camera type="perspective">
+      <integer name="width" value="2048"/>
+      <integer name="height" value="512"/>
+      <float name="fov" value="39.598"/>
+      <string name="fovAxis" value="x"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,-0.28302,0.95911,-24.967,  0,-0.95911,-0.28302,8.6143,  0,0,0,1"/>
+      </transform>
+    </camera>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="mix" data_type="FLOAT" factor_mode="UNIFORM" clamp_factor="false" clamp_result="false" blend_type="MIX">
+          <texture name="factor_Float" type="constant" value="0.6768"/>
+          <texture name="factor_Vector" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="a_Color" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="b_Color" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="a_Float" type="constant" value="0.2"/>
+          <texture name="b_Float" type="constant" value="0.8"/>
+          <texture name="a_Vector" type="constant" value="0,0,0"/>
+          <texture name="b_Vector" type="constant" value="0,0,0"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.bob"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <light type="area">
+      <instance>
+        <shape type="sphere"/>
+        <transform>
+          <scale value="0.1"/>
+          <translate x="4.0762" y="1.0055" z="5.9039"/>
+        </transform>
+        <emission type="lambertian">
+          <texture name="emission" type="constant" value="2533,2533,2533"/>
+        </emission>
+      </instance>
+    </light>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="constant" value="0.8"/>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Plane.bob"/>
+      <transform>
+        <matrix value="21.605,0,0,0,  0,21.605,0,0,  0,0,21.605,0,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="mix" data_type="RGBA" factor_mode="UNIFORM" clamp_factor="false" clamp_result="false" blend_type="MIX">
+          <texture name="factor_Float" type="constant" value="0.6768"/>
+          <texture name="factor_Vector" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="a_Color" type="constant" value="0.4998,0.061753,0.43866"/>
+          <texture name="b_Color" type="constant" value="0.49986,0.22471,0.030219"/>
+          <texture name="a_Float" type="constant" value="0.2"/>
+          <texture name="b_Float" type="constant" value="0.8"/>
+          <texture name="a_Vector" type="constant" value="0,0,0"/>
+          <texture name="b_Vector" type="constant" value="0,0,0"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.001.bob"/>
+      <transform>
+        <matrix value="1,0,0,3,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="mix" data_type="RGBA" factor_mode="UNIFORM" clamp_factor="true" clamp_result="true" blend_type="MIX">
+          <texture name="factor_Float" type="constant" value="1.5"/>
+          <texture name="factor_Vector" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="a_Color" type="constant" value="0.4998,0.061753,0.43866"/>
+          <texture name="b_Color" type="constant" value="50,0.22471,0.5"/>
+          <texture name="a_Float" type="constant" value="0.2"/>
+          <texture name="b_Float" type="constant" value="0.8"/>
+          <texture name="a_Vector" type="constant" value="0,0,0"/>
+          <texture name="b_Vector" type="constant" value="0,0,0"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.002.bob"/>
+      <transform>
+        <matrix value="1,0,0,6,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="mix" data_type="VECTOR" factor_mode="UNIFORM" clamp_factor="true" clamp_result="false" blend_type="MIX">
+          <texture name="factor_Float" type="constant" value="-10"/>
+          <texture name="factor_Vector" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="a_Color" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="b_Color" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="a_Float" type="constant" value="0.2"/>
+          <texture name="b_Float" type="constant" value="0.8"/>
+          <texture name="a_Vector" type="constant" value="0.6,0.2,0.8"/>
+          <texture name="b_Vector" type="constant" value="0.1,0.2,0.3"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.003.bob"/>
+      <transform>
+        <matrix value="1,0,0,-3,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="mix" data_type="VECTOR" factor_mode="NON_UNIFORM" clamp_factor="true" clamp_result="false" blend_type="MIX">
+          <texture name="factor_Float" type="constant" value="0.3232"/>
+          <texture name="factor_Vector" type="constant" value="3.9,0.2,-3.5"/>
+          <texture name="a_Color" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="b_Color" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="a_Float" type="constant" value="0.2"/>
+          <texture name="b_Float" type="constant" value="0.8"/>
+          <texture name="a_Vector" type="constant" value="0.6,0.2,0.8"/>
+          <texture name="b_Vector" type="constant" value="0.1,0.2,0.3"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.004.bob"/>
+      <transform>
+        <matrix value="1,0,0,-6,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="mix" data_type="VECTOR" factor_mode="NON_UNIFORM" clamp_factor="false" clamp_result="false" blend_type="MIX">
+          <texture name="factor_Float" type="constant" value="0.3232"/>
+          <texture name="factor_Vector" type="constant" value="0.6,0.2,0.8"/>
+          <texture name="a_Color" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="b_Color" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="a_Float" type="constant" value="0.2"/>
+          <texture name="b_Float" type="constant" value="0.8"/>
+          <texture name="a_Vector" type="constant" value="0.6,0.2,0.8"/>
+          <texture name="b_Vector" type="constant" value="0.1,0.2,0.3"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.007.bob"/>
+      <transform>
+        <matrix value="1,0,0,-9,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <instance>
+      <bsdf type="diffuse">
+        <texture name="albedo" type="mix" data_type="VECTOR" factor_mode="UNIFORM" clamp_factor="false" clamp_result="false" blend_type="MIX">
+          <texture name="factor_Float" type="constant" value="0.3232"/>
+          <texture name="factor_Vector" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="a_Color" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="b_Color" type="constant" value="0.5,0.5,0.5"/>
+          <texture name="a_Float" type="constant" value="0.2"/>
+          <texture name="b_Float" type="constant" value="0.8"/>
+          <texture name="a_Vector" type="constant" value="0.6,0.2,0.8"/>
+          <texture name="b_Vector" type="constant" value="0.1,0.2,0.3"/>
+        </texture>
+      </bsdf>
+      <shape type="mesh" filename="meshes/Cube.008.bob"/>
+      <transform>
+        <matrix value="1,0,0,9,  0,1,0,0,  0,0,1,1,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <light type="envmap">
+      <texture type="constant" value="0.050876,0.050876,0.050876"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+      </transform>
+    </light>
+  </scene>
+  <integrator type="pathtracer" depth="13" samplingmode="MIS">
+    <ref id="scene"/>
+    <sampler type="independent" count="512"/>
+  </integrator>
+</test>
