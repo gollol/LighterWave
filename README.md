@@ -1,20 +1,8 @@
-# lightwave
+# LighterWave
 
-Welcome to _lightwave_, an educational framework for writing ray tracers that can render photo-realistic images!
-Lightwave provides the boring boilerplate, so you can focus on writing the insightful parts.
-It aims to be minimal enough to remain comprehensible, yet flexible enough to provide a solid foundation even for sophisticated rendering algorithms.
+LighterWave is a fork of [Saarland University's path tracer](https://graphics.cg.uni-saarland.de/courses/cg1-2023/index.html) lightwave, which we extended to the presented version as part of the seminar [Advanced Rendering Techniques (ART)](https://graphics.cg.uni-saarland.de/courses/art-2024/index.html) in the 2024 summer semester. Due to time constraints, there are still some problems but most of the upcoming functionality works.
 
-## Assignments
-We want you to make this renderer truly your own. Our assignments provide ample opportunities to customize your renderer with features that you personally find interesting, and you are welcome to change each and every line of your renderer as you see fit, including all of its interfaces. The only **hard requirement** is that your renderer remains capable of reading our test scene files, and outputs the right images for those.
-
-You are encouraged to publish your renderer (e.g., on Github) after the course ends, but during the course you are not allowed to share code with other groups. Copying code from other sources is equally prohibited, as blindly copying code defeats the purpose of this project:
-
-We want you to have fun writing your very own ray tracer, producing renders that you can be proud of, and to learn and prepare you for the final exam!
-
-## Overview
-
-
-## What's Included
+## Features provided by lightwave
 Out of the box, lightwave is unable to produce any images, as it lacks all necessary rendering functionality to do so.
 It is your job to write the various components that make this possible: You will write camera models, intersect shapes, program their appearance, and orchestrate how rays are traced throughout the virtual scene.
 Lightwave supports you in this endeavour by supplying tedious to implement boilerplate, including:
@@ -46,8 +34,38 @@ Lightwave supports you in this endeavour by supplying tedious to implement boile
   * Random number generators
 * A Blender exporter
   * You can easily build and render your own scenes
+ 
+## Features implemented by me
+Apart from the 'basic' functionality we had to implement during the Computer Graphics 1 lecture, during ART I primarily worked on:
+* Textures
+  * Color Ramp
+  * Info texture / nodes
+    * Particle Info
+    * Curves Info
+    * Geometry Info
+    * Object Info
+* Hair rendering
+  * Customizable hair geometry
+  * Custom bounding volumes
+  * Hair reconstruction from control points
+* Extending the Blender exporter to support the already mentioned features and optimized the export of animated shots 
+* Some smaller changes to the architecture to support the Info nodes
+
+## Main topics covered by the rest of the team
+* Arsenii Dremin: Volumetric rendering
+* [Ben Samuel Dierks](https://github.com/Nasenbaer39): Compression and optimization (mesh quantization) as well as motion blur
+* [Christian Philipp Singer](https://github.com/Thunfischpirat): Realistic camera models and motion blur
+* David Peter Hares: Compositing
+* Henry Ludger Janson: Sampling, MIS compensation, realistic sun model and the Blender exporter
+* [Johannes Schöneberger](https://github.com/JoeJoeTV): Blender exporter and implementation of BSDFs and textures (advanced materials)
+* Leonard Butz: Tessellation-free displacement mapping
+* Lianjia Liu: Optimized path space regularization
+* Nico Leiner: Practical path guiding using russian roulette strategies
+* Tobias Wiedemann: Regularised path tracing and motion blur
+
+We also recreated an animated scene of 'Rogue One: A Star Wars Story' in Blender but couldn't quite get it to render in lightwave.
 
 ## Contributors
 Lightwave was written by [Alexander Rath](https://graphics.cg.uni-saarland.de/people/rath.html), with contributions from [Ömercan Yazici](https://graphics.cg.uni-saarland.de/people/yazici.html) and [Philippe Weier](https://graphics.cg.uni-saarland.de/people/weier.html).
-Many of our design decisions were heavily inspired by [Nori](https://wjakob.github.io/nori/), a great educational renderer developed by Wenzel Jakob.
+Many of the design decisions were heavily inspired by [Nori](https://wjakob.github.io/nori/), a great educational renderer developed by Wenzel Jakob.
 We would also like to thank the teams behind our dependencies: [ctpl](https://github.com/vit-vit/CTPL), [miniz](https://github.com/richgel999/miniz), [stb](https://github.com/nothings/stb), [tinyexr](https://github.com/syoyo/tinyexr), [tinyformat](https://github.com/c42f/tinyformat), and [pcg32](https://github.com/wjakob/pcg32).
