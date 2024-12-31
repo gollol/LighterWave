@@ -1,65 +1,67 @@
-<scene id="scene">
-  <camera type="perspective">
-    <integer name="width" value="512"/>
-    <integer name="height" value="512"/>
-    <float name="fov" value="39.598"/>
-    <string name="fovAxis" value="y"/>
-    <transform>
-      <matrix value="0.52492,0.2409,-0.81635,5.0334,  0.85115,-0.14857,0.50346,-3.0991,  2.7845e-06,-0.95911,-0.28303,2.2211,  0,0,0,1"/>
-    </transform>
-  </camera>
-  <light type="area">
-    <instance id="Light" index="0">
-      <shape type="sphere"/>
+<test type="image" id="complex_hair">
+  <scene id="scene">
+    <camera type="perspective">
+      <integer name="width" value="512"/>
+      <integer name="height" value="512"/>
+      <float name="fov" value="39.598"/>
+      <string name="fovAxis" value="y"/>
       <transform>
-        <scale value="0.1"/>
-        <translate x="4.0762" y="1.0055" z="5.9039"/>
+        <matrix value="0.52492,0.2409,-0.81635,5.0334,  0.85115,-0.14857,0.50346,-3.0991,  2.7845e-06,-0.95911,-0.28303,2.2211,  0,0,0,1"/>
       </transform>
-      <emission type="lambertian">
-        <texture name="emission" type="constant" value="2533,2533,2533"/>
-      </emission>
+    </camera>
+    <light type="area">
+      <instance id="Light" index="0">
+        <shape type="sphere"/>
+        <transform>
+          <scale value="0.1"/>
+          <translate x="4.0762" y="1.0055" z="5.9039"/>
+        </transform>
+        <emission type="lambertian">
+          <texture name="emission" type="constant" value="2533,2533,2533"/>
+        </emission>
+      </instance>
+    </light>
+    <ref id="Light"/>
+    <instance index="-1">
+      <bsdf id="SharedMaterial" type="mix_shader">
+        <texture name="factor" type="curves_info" variable="isStrand"/>
+        <bsdf type="diffuse">
+          <texture name="albedo" type="constant" value="1,0.55848,0.090028"/>
+        </bsdf>
+        <bsdf type="diffuse">
+          <texture name="albedo" type="color_ramp" colorMode="RGB" interpolationType="LINEAR" hueInterpolation="NEAR">
+            <texture name="factor" type="curves_info" variable="random"/>
+            <color_ramp_element alpha="1" position="0">
+              <color name="color" value="1,0.050655,0"/>
+            </color_ramp_element>
+            <color_ramp_element alpha="1" position="1">
+              <color name="color" value="0.0011194,0.35639,1"/>
+            </color_ramp_element>
+          </texture>
+        </bsdf>
+      </bsdf>
+      <shape type="mesh" filename="../meshes/Head.bob"/>
+      <transform>
+        <matrix value="-0.27724,0.95323,0.12035,0,  -0.94587,-0.29278,0.14001,0,  0.1687,-0.075024,0.98281,0.37328,  0,0,0,1"/>
+      </transform>
     </instance>
-  </light>
-  <ref id="Light"/>
-  <instance index="-1">
-    <bsdf id="SharedMaterial" type="mix_shader">
-      <texture name="factor" type="curves_info" variable="isStrand"/>
-      <bsdf type="diffuse">
-        <texture name="albedo" type="constant" value="1,0.55848,0.090028"/>
-      </bsdf>
-      <bsdf type="diffuse">
-        <texture name="albedo" type="color_ramp" colorMode="RGB" interpolationType="LINEAR" hueInterpolation="NEAR">
-          <texture name="factor" type="curves_info" variable="random"/>
-          <color_ramp_element alpha="1" position="0">
-            <color name="color" value="1,0.050655,0"/>
-          </color_ramp_element>
-          <color_ramp_element alpha="1" position="1">
-            <color name="color" value="0.0011194,0.35639,1"/>
-          </color_ramp_element>
-        </texture>
-      </bsdf>
-    </bsdf>
-    <shape type="mesh" filename="../meshes/Head.bob"/>
-    <transform>
-      <matrix value="-0.27724,0.95323,0.12035,0,  -0.94587,-0.29278,0.14001,0,  0.1687,-0.075024,0.98281,0.37328,  0,0,0,1"/>
-    </transform>
-  </instance>
-  <instance index="-2">
-    <ref id="SharedMaterial"/>
-    <shape type="fur" rootRadius="0.005" tipRadius="0.0" filename="../meshes/ComplexHair.bob"/>
-    <transform>
-      <matrix value="-0.27724,0.95323,0.12035,0,  -0.94587,-0.29278,0.14001,0,  0.1687,-0.075024,0.98281,0.37328,  0,0,0,1"/>
-    </transform>
-  </instance>
-  <light type="envmap">
-    <texture type="constant" value="0.050876,0.050876,0.050876"/>
-    <transform>
-      <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
-    </transform>
-  </light>
-</scene>
-<integrator type="pathtracer" depth="13" samplingmode="MIS">
-  <ref id="scene"/>
-  <image id="complex_hair"/>
-  <sampler type="independent" count="128"/>
-</integrator>
+    <instance index="-2">
+      <ref id="SharedMaterial"/>
+      <shape type="fur" rootRadius="0.005" tipRadius="0.0" filename="../meshes/ComplexHair.bob"/>
+      <transform>
+        <matrix value="-0.27724,0.95323,0.12035,0,  -0.94587,-0.29278,0.14001,0,  0.1687,-0.075024,0.98281,0.37328,  0,0,0,1"/>
+      </transform>
+    </instance>
+    <light type="envmap">
+      <texture type="constant" value="0.050876,0.050876,0.050876"/>
+      <transform>
+        <matrix value="1,0,0,0,  0,0,1,0,  0,-1,0,0,  0,0,0,1"/>
+      </transform>
+    </light>
+  </scene>
+  <integrator type="pathtracer" depth="13" samplingmode="MIS">
+    <ref id="scene"/>
+    <image id="complex_hair"/>
+    <sampler type="independent" count="128"/>
+  </integrator>
+</test>
