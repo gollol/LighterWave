@@ -17,13 +17,13 @@ namespace lightwave {
  * http://psgraphics.blogspot.ch/2011/01/improved-code-for-concentric-map.html
  */
 inline Point2 squareToUniformDiskConcentric(const Point2 &sample) {
-    float r1 = 2 * sample.x() - 1;
-    float r2 = 2 * sample.y() - 1;
+    float r1 = 2.f * sample.x() - 1.f;
+    float r2 = 2.f * sample.y() - 1.f;
 
     float phi, r;
-    if (r1 == 0 && r2 == 0) {
-        r   = 0;
-        phi = 0;
+    if (r1 == 0.f && r2 == 0.f) {
+        r   = 0.f;
+        phi = 0.f;
     } else if (r1 * r1 > r2 * r2) {
         r   = r1;
         phi = Pi4 * (r2 / r1);
@@ -43,9 +43,9 @@ inline Point2 squareToUniformDiskConcentric(const Point2 &sample) {
  * @code 1 / (4 * Pi) @endcode .
  */
 inline Vector squareToUniformSphere(const Point2 &sample) {
-    float z      = 1 - 2 * sample.y();
-    float r      = safe_sqrt(1 - z * z);
-    float phi    = 2 * Pi * sample.x();
+    float z      = 1.f - 2 * sample.y();
+    float r      = safe_sqrt(1.f - z * z);
+    float phi    = 2.f * Pi * sample.x();
     float cosPhi = std::cos(phi);
     float sinPhi = std::sin(phi);
     return { r * cosPhi, r * sinPhi, z };
@@ -58,8 +58,8 @@ inline Vector squareToUniformSphere(const Point2 &sample) {
  */
 inline Vector squareToUniformHemisphere(const Point2 &sample) {
     Point2 p = squareToUniformDiskConcentric(sample);
-    float z  = 1.0f - p.x() * p.x() - p.y() * p.y();
-    float s  = sqrt(z + 1.0f);
+    float z  = 1.f - p.x() * p.x() - p.y() * p.y();
+    float s  = sqrt(z + 1.f);
     return { s * p.x(), s * p.y(), z };
 }
 
@@ -73,7 +73,7 @@ inline float uniformHemispherePdf() { return Inv2Pi; }
  */
 inline Vector squareToCosineHemisphere(const Point2 &sample) {
     Point2 p = squareToUniformDiskConcentric(sample);
-    float z  = safe_sqrt(1.0f - p.x() * p.x() - p.y() * p.y());
+    float z  = safe_sqrt(1.f - p.x() * p.x() - p.y() * p.y());
     return { p.x(), p.y(), z };
 }
 
@@ -90,27 +90,27 @@ inline float cosineHemispherePdf(const Vector &vector) {
  */
 inline Vector squareToUniformPartialHemisphere(const Point2 &sample, const float max_angle) {
     Point2 p = squareToUniformDiskConcentric(sample);
-    float offset = 1.0 - cos(max_angle);
+    float offset = 1.f - cos(max_angle);
     float offset_sq = sqrt(offset);
     p = Point2(p.x() * offset_sq, p.y() * offset_sq);
-    float z  = 1.0f - p.x() * p.x() - p.y() * p.y();
-    float s  = sqrt(z + 1.0f);
+    float z  = 1.f - p.x() * p.x() - p.y() * p.y();
+    float s  = sqrt(z + 1.f);
     return { s * p.x(), s * p.y(), z };
 }
 
 /// @brief Returns the density of the @ref squareToUniformPartialHemisphere warping.
 inline float uniformPartialHemispherePdf(const Vector &vector, const float max_angle) {
-    float cos_angle = vector.dot(Vector(0.0, 0.0, 1.0));
+    float cos_angle = vector.dot(Vector(0.f, 0.f, 1.f));
     float angle = acos(cos_angle);
     if (angle > max_angle){
-        return 0.0;
+        return 0.f;
     }
-    return 1.0 / (-2.0 * Pi * (cos(max_angle) - 1.0)); //Derivation https://www.wolframalpha.com/input?i=integral+from+0+to+2+*+pi+%28integral+from+0+to+a+%28sin%29+dx%29dy
+    return 1.f / (-2.f * Pi * (cos(max_angle) - 1.f)); //Derivation https://www.wolframalpha.com/input?i=integral+from+0+to+2+*+pi+%28integral+from+0+to+a+%28sin%29+dx%29dy
 }
 
 /// @brief Returns the density of the @ref squareToUniformPartialHemisphere warping asuming the partial part is hit.
 inline float uniformPartialHemispherePdfConst(const float max_angle) {
-    return uniformPartialHemispherePdf(Vector(0.0, 0.0, 1.0), max_angle); //Derivation https://www.wolframalpha.com/input?i=integral+from+0+to+2+*+pi+%28integral+from+0+to+a+%28sin%29+dx%29dy
+    return uniformPartialHemispherePdf(Vector(0.f, 0.f, 1.f), max_angle); //Derivation https://www.wolframalpha.com/input?i=integral+from+0+to+2+*+pi+%28integral+from+0+to+a+%28sin%29+dx%29dy
 }
 
 inline Vector transformFromZ(const Vector &z_offset, const Vector &normal){
@@ -124,7 +124,7 @@ inline Vector2 fromCartesianToSpherical(const Vector &vec){
     float x = vec.x(), y = vec.y(), z = vec.z();
     float inclination = safe_acos(z);
     float azimuth = safe_acos(x / safe_sqrt(x * x + y * y));
-    if (y < 0.0){
+    if (y < 0.f){
         azimuth = -azimuth;
     }
     return Vector2(inclination, azimuth);

@@ -169,13 +169,10 @@ public:
 
             const Floats4 points = toFloats4(
                 { rr.position(), r.position(), l.position(), ll.position() });
-            return interpolateCatmullRom(
-                t, colors, points); // Blender: key_curve_position_weights(fac,
-                                    // t, KEY_CARDINAL);
+            return interpolateCatmullRom( t, colors, points);
+                // Blender: key_curve_position_weights(fac, t, KEY_CARDINAL);
         }
         }
-        // This should be unreachable!
-        return Color(0);
     }
 
     std::string toString() const override {

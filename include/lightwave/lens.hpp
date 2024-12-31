@@ -14,20 +14,20 @@ class Lens : public Object {
 
 protected:
     /// @brief Thickness of the lens.
-    float thickness;
+    float m_thickness;
     /// @brief Refractive index of the lens.
-    float eta;
+    float m_eta;
     /// @brief Radius of the lens.
-    float apertureRadius;
+    float m_apertureRadius;
     /// @brief Radius of curvature of the lens.
-    float curvatureRadius;
+    float m_curvatureRadius;
 
 public:
     Lens(const Properties &properties) {
-        thickness       = 0.001 * properties.get<float>("thickness");
-        eta             = properties.get<float>("eta");
-        apertureRadius  = 0.001 * properties.get<float>("apertureRadius");
-        curvatureRadius = 0.001 * properties.get<float>("curvatureRadius");
+        m_thickness       = 0.001f * properties.get<float>("thickness");
+        m_eta             = properties.get<float>("eta");
+        m_apertureRadius  = 0.001f * properties.get<float>("apertureRadius");
+        m_curvatureRadius = 0.001f * properties.get<float>("curvatureRadius");
     }
 
     /// @brief Calculates the intersection between the given ray and the
@@ -36,13 +36,13 @@ public:
                            Vector &n) const = 0;
 
     // Getter methods
-    float getThickness() const { return thickness; }
-    float getEta() const { return eta; }
-    float getApertureRadius() const { return apertureRadius; }
-    float getCurvatureRadius() const { return curvatureRadius; }
+    float getThickness() const { return m_thickness; }
+    float getEta() const { return m_eta; }
+    float getApertureRadius() const { return m_apertureRadius; }
+    float getCurvatureRadius() const { return m_curvatureRadius; }
 
     // Setter methods
-    void setThickness(float thickness) { this->thickness = thickness; }
+    void setThickness(const float thickness) { m_thickness = thickness; }
 };
 
 } // namespace lightwave

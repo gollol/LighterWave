@@ -21,7 +21,7 @@ public:
         Vector2 scale(scale_color.r(), scale_color.g());
         const auto p =
             Vector2(Point2(0.000001f) + (Vector2(uv) * scale)) * 0.999999f;
-        Vector2i idx = Vector2i(floor(p.x()), floor(p.y()));
+        Vector2i idx = Vector2i(static_cast<int>(floor(p.x())), static_cast<int>(floor(p.y())));
 
         const bool which = (idx.x() ^ idx.y()) & 1;
         return which ? this->m_color0->evaluate(uv, cont)

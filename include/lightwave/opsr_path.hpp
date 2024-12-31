@@ -28,8 +28,8 @@ namespace lightwave {
     }
 
     // quantizationLevel is basicly whether its the 2d bin or the 3d or 4d or 5d bin (which implicitly is the bin size as well)
-    static int roughnessToBin(float vertexRoughness, int roughnessRes) {
-        int logRoughnessRes = roughnessRes + 1;
+    static int roughnessToBin(float vertexRoughness, float roughnessRes) {
+        float logRoughnessRes = roughnessRes + 1;
         return (int) std::min(
             std::floor(
                 (std::pow(2.0f, std::sqrt(vertexRoughness)) - 1.0f) * logRoughnessRes)
@@ -52,7 +52,7 @@ namespace lightwave {
                 queryIndex += roughnessToBin(virtualRoughness, roughnessRes);
             } else {
                 queryIndex +=
-                    ipow(roughnessRes, (i - startIndex)) *
+                    ipow((int) roughnessRes, (i - startIndex)) *
                     roughnessToBin(pathRoughness[i], roughnessRes);
             }
         }

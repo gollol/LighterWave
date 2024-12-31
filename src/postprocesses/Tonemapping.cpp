@@ -77,13 +77,13 @@ public:
     /// @brief Reinhard Simple TM
     void reinhardSimple()
     {
-                //init
+        //init
         m_output->initialize(m_input->resolution());
         r_m.initialize(m_input->resolution());
 
         //user specified values
-        //float a = 0.18f;
-        float phi = 10.0f;
+        // float a = 0.18f;
+        // float phi = 10.0f;
 
         //calcute intermediate image r_m
         float sum_log = 0.0f;
@@ -122,144 +122,148 @@ public:
     std::vector<float> buildKernel(int size)
     {
         float c = 1.0f / size;
-        std::vector<float> kernel;
-        kernel.resize(2 * size + 1, 0.0f);
+        const int kernelSize = 2 * size + 1;
+        std::vector<float> kernel(kernelSize, 0.f);
+
         float kernel_sum = 0.0f;
-        for(int i = 0; i < kernel.size(); i++)
+        for(int i = 0; i < kernelSize; i++)
         {
-            float x = i - size;
+            int x = i - size;
             //https://de.wikipedia.org/wiki/Gau%C3%9F-Filter
             kernel[i] = sqrt(c / Pi) * exp(-c*x*x);
             kernel_sum += kernel[i];
         }
 
         //make Kernel sum up to 1
-        for(int i = 0; i < kernel.size(); i++)
+        for(int i = 0; i < kernelSize; i++)
             kernel[i] /= kernel_sum;
 
         return kernel;
     }
 
-    Color gauss_con(std::vector<float> kernel, int size, Point2i pixel)
+    Color gauss_con(const std::vector<float> &kernel, const int size, Point2i pixel)
     {
         Color gauss_value = Color(0);
+        const int kernelSize = static_cast<int>(kernel.size());
 
+        const int sizePlus1 = size + 1;
         for(int y = pixel.y() - size; y <= pixel.y() + size; y++)
         for(int x = pixel.x() - size; x <= pixel.x() + size; x++)
         {
-            float yy = y;
-            if(yy < 0)
+            int yy = y;
+            if(y < 0)
                 yy = 0;
-            if(yy >= r_m.resolution().y())
+            if(y >= r_m.resolution().y())
                 yy = r_m.resolution().y() - 1;
 
             Color gauss_sum = Color(0.0f);
 
-            for(int i = 0; i < kernel.size(); i++)
+            for(int i = 0; i < kernelSize; i++)
             {
-                float position = x + (i - size);
+                int position = x + (i - size);
 
-                if(position < 0)
+                if(position < 0) {
                     //position = -position;
                     position = 0;
+                }
 
                 if(position >= r_m.resolution().x())
+                {
                     //position = img.resolution().x() - size;
                     position = r_m.resolution().x() - 1;
+                }
 
-                Point2i pixel(position, yy);
-                Color rgb = r_m.get(pixel);
-
+                Color rgb = r_m.get(Point2i(position, yy));
                 gauss_sum += kernel[i] * rgb;
             }
 
-            Point2i pixel_gauss = Point2i(pixel.x() - (x - (size + 1)) - 1, pixel.y() - (yy - (size + 1)) - 1);
+            Point2i pixel_gauss = Point2i(pixel.x() - (x - sizePlus1) - 1, pixel.y() - (yy - sizePlus1) - 1);
             gauss_image.get(pixel_gauss) = gauss_sum;
         }
 
-        int x = size + 1;
-        for(int y = 0; y < kernel.size(); y++)
+        for(int y = 0; y < kernelSize; y++)
         {
-            Point2i pixel(x,y);
-            Color rgb = gauss_image.get(pixel);
-
+            Color rgb = gauss_image.get(Point2i(sizePlus1, y));
             gauss_value += kernel[y] * rgb;
         }
 
         return gauss_value;
     }
 
-    void gauss_convolution(float size, Image& img, Image r_m)
-    {
-        img.initialize(r_m.resolution());
+    // This shit is never called???
 
-        float c = 1.0f / size;
+    // void gauss_convolution(const int size, Image& img, Image& r_m)
+    // {
+    //     img.initialize(r_m.resolution());
         
-        std::vector<float> kernel;
-        kernel.resize(2 * size + 1, 0.0f);
-        float kernel_sum = 0.0f;
-        for(int i = 0; i < kernel.size(); i++)
-        {
-            float x = i - size;
-            //https://de.wikipedia.org/wiki/Gau%C3%9F-Filter
-            kernel[i] = sqrt(c / Pi) * exp(-c*x*x);
-            kernel_sum += kernel[i];
-        }
+    //     float c = 1.0f / size;
 
-        for(int y = 0; y < img.resolution().y(); y++)
-        for(int x = 0; x < img.resolution().x(); x++)
-        {
-            Color gauss_value = Color(0);
-            for(int i = 0; i < kernel.size(); i++)
-            {
-                float position = x + (i - size);
+    //     const int kernelSize = 2 * size + 1;
+    //     std::vector<float> kernel(kernelSize, 0.f);
 
-                if(position < 0)
-                    //position = -position;
-                    position = 0;
+    //     float kernel_sum = 0.0f;
+    //     for(int i = 0; i < kernelSize; i++)
+    //     {
+    //         int x = i - size;
+    //         //https://de.wikipedia.org/wiki/Gau%C3%9F-Filter
+    //         kernel[i] = sqrt(c * InvPi) * exp(-c*x*x);
+    //         kernel_sum += kernel[i];
+    //     }
 
-                if(position >= img.resolution().x())
-                    //position = img.resolution().x() - size;
-                    position = img.resolution().x() - 1;
+    //     for(int y = 0; y < img.resolution().y(); y++)
+    //     for(int x = 0; x < img.resolution().x(); x++)
+    //     {
+    //         Color gauss_value = Color(0);
+    //         for(int i = 0; i < kernelSize; i++)
+    //         {
+    //             int position = x + (i - size);
 
-                Point2i pixel(position,y);
-                Color rgb = r_m.get(pixel);
+    //             if(position < 0) {
+    //                 //position = -position;
+    //                 position = 0;
+    //             }
 
-                gauss_value += kernel[i] * rgb;
-            }
-            gauss_value /= kernel_sum;
+    //             if(position >= img.resolution().x()) {
+    //                 //position = img.resolution().x() - size;
+    //                 position = img.resolution().x() - 1;
+    //             }
 
-            Point2i pixel(x,y);
-            img.get(pixel) = gauss_value;
-        }
+    //             Color rgb = r_m.get(Point2i(position, y));
+    //             gauss_value += kernel[i] * rgb;
+    //         }
+    //         gauss_value /= kernel_sum;
 
-        for(int y = 0; y < img.resolution().y(); y++)
-        for(int x = 0; x < img.resolution().x(); x++)
-        {
-            Color gauss_value = Color(0);
-            for(int i = 0; i < kernel.size(); i++)
-            {
-                float position = y + (i - size);
+    //         Point2i pixel(x,y);
+    //         img.get(pixel) = gauss_value;
+    //     }
 
-                if(position < 0)
-                    //position = -position;
-                    position = 0;
+    //     for(int y = 0; y < img.resolution().y(); y++)
+    //     for(int x = 0; x < img.resolution().x(); x++)
+    //     {
+    //         Color gauss_value = Color(0);
+    //         for(int i = 0; i < kernelSize; i++)
+    //         {
+    //             int position = y + (i - size);
 
-                if(position >= img.resolution().y())
-                    //position = img.resolution().x() - size;
-                    position = img.resolution().y() - 1;
+    //             if(position < 0)
+    //                 //position = -position;
+    //                 position = 0;
 
-                Point2i pixel(x, position);
-                Color rgb = img.get(pixel);
+    //             if(position >= img.resolution().y())
+    //                 //position = img.resolution().x() - size;
+    //                 position = img.resolution().y() - 1;
 
-                gauss_value += kernel[i] * rgb;
-            }
-            gauss_value /= kernel_sum;
+    //             Point2i pixel(x, position);
+    //             Color rgb = img.get(pixel);
 
-            Point2i pixel(x,y);
-            img.get(pixel) = gauss_value;
-        }
-    }
+    //             gauss_value += kernel[i] * rgb;
+    //         }
+    //         gauss_value /= kernel_sum;
+
+    //         Point2i pixel(x,y);
+    //         img.get(pixel) = gauss_value;
+    //     }
+    // }
 
     void reinhardLocal()
     {
@@ -268,7 +272,7 @@ public:
         r_m.initialize(m_input->resolution());
 
         //user specified values
-        //float a = 0.18f;
+        // float a = 0.18f;
         float phi = 10.0f;
 
         //calcute intermediate image r_m
@@ -279,9 +283,7 @@ public:
             for(int y = 0; y < m_output->resolution().y(); y++)
             for(int x = 0; x < m_output->resolution().x(); x++)
             {
-                Point2i pixel(x,y);
-
-                Color rgb = m_input->get(pixel);
+                Color rgb = m_input->get(Point2i(x,y));
                 sum_log += log(rgb[c] + epsilson*1);  
             }
             float r_lav = exp(sum_log / (m_output->resolution().x() * m_output->resolution().y()) -  epsilson*1);

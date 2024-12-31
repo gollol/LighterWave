@@ -62,7 +62,7 @@ class WaveTexture : public Texture {
                              const float detailRoughness, const float phaseOffset) const {
         //p = (p + Vector2(0.000001f)) * 0.999999f; // Used by Blender, but still not fully faithfull
 
-        float n;
+        float n = 0.f;
 
         // Add selected coordinate
         switch (direction) {
@@ -92,12 +92,13 @@ class WaveTexture : public Texture {
         case WaveProfile::SINE:
             return 0.5f + 0.5f * sinf(n - Pi2);
         case WaveProfile::SAW:
-            n /= 2 * Pi;
+            n *= Inv2Pi;
             return n - floorf(n);
         case WaveProfile::TRIANGLE:
-            n /= 2 * Pi;
+            n *= Inv2Pi;
             return fabsf(n - floorf(n + 0.5f)) * 2.0f;
         }
+        return 0;
     }
 
 public:
@@ -141,6 +142,7 @@ public:
             // Currently not supported
             return Color(0);
         }
+        return Color(0);
     }
 
     std::string toString() const override {

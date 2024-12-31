@@ -116,7 +116,7 @@ Intersection Scene::intersect(const Ray &ray, Sampler &rng, Context &cont) const
     m_shape->intersect(ray, its, rng, cont);
     size_t num_backgrounds = m_background.size();
     if (!its && num_backgrounds > 0){
-        size_t index = min(float(num_backgrounds) * rng.next(), num_backgrounds - 1);
+        size_t index = min(float(num_backgrounds) * rng.next(), num_backgrounds-1);
         its.background = m_background[index].get();
         its.backgroundProbability = 1.0f / float(num_backgrounds);
     }

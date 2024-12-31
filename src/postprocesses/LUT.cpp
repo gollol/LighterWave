@@ -43,7 +43,10 @@ struct LUT {
 
         /// @todo is this precise enough?
         // if (isNegative) decimal *= -1;
-        return decimal * powf(10, baseExp);
+        auto baseExp2 = baseExp * baseExp;
+        auto baseExp4 = baseExp2 * baseExp2;
+        auto baseExp8 = baseExp4 * baseExp4;
+        return 1.f * decimal * baseExp2 * baseExp8;
     }
 
     void readLUT(std::string filename) {
@@ -60,7 +63,7 @@ struct LUT {
         while (true) {
             if (*head == 'L' && (*(head - 1) == '\n' || head == &file[0])) {
                 head += 12;
-                size = alex_strtof(head, endPtr);
+                size = static_cast<int>(alex_strtof(head, endPtr));
                 colors.resize(size * size * size);
                 head = *endPtr;
 
@@ -105,12 +108,12 @@ struct LUT {
         delete file;
     }
 
-    const Color &get(const float &x, const float &y, const float &z) const {
+    const Color &get(const int x, const int y, const int z) const {
         return colors[x * size * size + y * size + z];
     }
 
     Color trilinear(Color rgb) {
-        rgb *= (size - 1);
+        rgb *= static_cast<float>(size - 1);
 
         int rl = int(floor(rgb.r()));
         int gl = int(floor(rgb.g()));
@@ -143,7 +146,6 @@ class ColorLUTs : public Postprocess {
 
 public:
     ColorLUTs(const Properties &properties) : Postprocess(properties) {
-        NOT_IMPLEMENTED
         lut.readLUT("../LUTs/Base sRGB.cube");
     }
 

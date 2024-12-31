@@ -37,7 +37,7 @@ public:
 
         switch(m_variable){
             case IS_STRAND:
-                return curveIndex == -1 ? 0 : 1;
+                return curveIndex == -1 ? 0.f : 1.f;
             case INTERCEPT:
                 return cont.hairIntercept;
             case THICKNESS:

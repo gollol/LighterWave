@@ -8,7 +8,6 @@ class Fog : public Postprocess {
 
 public:
     Fog(const Properties &properties) : Postprocess(properties) {
-        NOT_IMPLEMENTED
         distance = properties.get<Image>("distance");
     }
 

@@ -405,7 +405,7 @@ namespace Catch {
 
             double mean( double const* first, double const* last ) {
                 auto count = last - first;
-                double sum = 0.;
+                double sum = 0.0;
                 while (first != last) {
                     sum += *first;
                     ++first;

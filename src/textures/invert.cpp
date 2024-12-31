@@ -20,7 +20,7 @@ public:
         const Color origColor = this->m_original->evaluate(uv, cont);
         const float fac = this->m_fac->evaluate(uv, cont).mean();
         const Color inverColor = Color{1.0f - origColor.r(), 1.0f - origColor.g(), 1.0f - origColor.b()};
-        return inverColor * fac + origColor * (1.0 - fac);
+        return inverColor * fac + origColor * (1.f - fac);
     }
 
     std::string toString() const override {

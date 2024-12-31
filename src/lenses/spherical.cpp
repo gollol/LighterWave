@@ -10,21 +10,21 @@ public:
 
     bool intersect(const Ray &ray, const float zPosition, float &t, Vector &n) const override {
 
-        const float zCenter = zPosition + curvatureRadius; 
-        const float radiusSquared = sqr(curvatureRadius);
+        const float zCenter = zPosition + m_curvatureRadius; 
+        const float radiusSquared = sqr(m_curvatureRadius);
 
         // Calculate quadratic coefficients
         Point oc = ray.origin - Vector(0, 0, zCenter);
         Vector dir = ray.direction;
-        double b = 2 * (dir.x() * oc.x() + dir.y() * oc.y() + dir.z() * oc.z());
-        double c = sqr(oc.x()) + sqr(oc.y()) + sqr(oc.z()) - radiusSquared;
+        float b = 2 * (dir.x() * oc.x() + dir.y() * oc.y() + dir.z() * oc.z());
+        float c = sqr(oc.x()) + sqr(oc.y()) + sqr(oc.z()) - radiusSquared;
 
         // Solve quadratic equation for t values
         float t0, t1;
         if (!solveQuadratic(b, c, t0, t1)) return false;
 
         // Select intersection t based on ray direction and element curvature
-        bool useCloserT = (dir.z() > 0) ^ (curvatureRadius < 0);
+        bool useCloserT = (dir.z() > 0) ^ (m_curvatureRadius < 0);
         t = useCloserT ? std::min(t0, t1) : std::max(t0, t1);
         if (t < 0) return false;
 
@@ -45,10 +45,10 @@ public:
             "  apertureRadius = %d,\n"
             "  curvatureRadius = %d,\n"
             "]",
-            thickness,
-            eta,
-            apertureRadius,
-            curvatureRadius
+            m_thickness,
+            m_eta,
+            m_apertureRadius,
+            m_curvatureRadius
         );
     }
 

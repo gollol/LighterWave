@@ -56,8 +56,8 @@ public:
 
         if (result.z() < 0.0f) {
             float oldX = result.x();
-            result.x() = copysign(1.0 - abs(result.y()), oldX);
-            result.y() = copysign(1.0 - abs(oldX), result.y());
+            result.x() = copysign(1.0f - abs(result.y()), oldX);
+            result.y() = copysign(1.0f - abs(oldX), result.y());
         }
         return result.normalized();
     }
@@ -84,8 +84,8 @@ public:
         m_encoded      = projected;
         float accuracy = 0.0f;
 
-        for (size_t i = 0; i < 2; i++) {
-            for (size_t j = 0; j < 2; j++) {
+        for (int16_t i = 0; i < 2; i++) {
+            for (int16_t j = 0; j < 2; j++) {
                 Vector2s current = projected;
                 current.x().m_bits += i;
                 current.y().m_bits += j;
@@ -107,8 +107,8 @@ public:
         result.z() = 1.0f - (abs(result.x()) + abs(result.y()));
 
         if (result.z() < 0.0f) {
-            result.x() = copysign(1.0 - abs(result.x()), result.x());
-            result.y() = copysign(1.0 - abs(result.y()), result.y());
+            result.x() = copysign(1.0f - abs(result.x()), result.x());
+            result.y() = copysign(1.0f - abs(result.y()), result.y());
         }
         return result.normalized();
     }

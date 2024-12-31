@@ -41,9 +41,9 @@ class Warp2DEnvMap final : public BackgroundLight {
             start = *(pos-1);
         }
 
-        float pixel_size = 1.0 / float(SIZE_PIXEL_WARP);
+        float pixel_size = 1.0f / SIZE_PIXEL_WARP;
         float size_index = end - start;
-        float relativ_pos = (scaled - start) / (size_index);
+        float relativ_pos = (scaled - start) / size_index;
         float warped_pos = pixel_size * relativ_pos + pixel_size * float(index); //TODO check if this is correct
 
         return std::make_pair(index ,warped_pos);
@@ -58,8 +58,8 @@ class Warp2DEnvMap final : public BackgroundLight {
 
     inline float sample_pdf_pos(Point2 pos) const {
         pos = uvToPrimarySpace(pos);
-        size_t x_pos = min(pos.x() * float(SIZE_PIXEL_WARP), SIZE_PIXEL_WARP - 1); //this works because the implicit conversion from float to int is floor the min is just for the case pos.x == 1.0 where this might get unstable
-        size_t y_pos = min(pos.y() * float(SIZE_PIXEL_WARP), SIZE_PIXEL_WARP - 1);
+        size_t x_pos = (size_t) min(pos.x() * float(SIZE_PIXEL_WARP), SIZE_PIXEL_WARP - 1); //this works because the implicit conversion from float to int is floor the min is just for the case pos.x == 1.0 where this might get unstable
+        size_t y_pos = (size_t) min(pos.y() * float(SIZE_PIXEL_WARP), SIZE_PIXEL_WARP - 1);
         return sample_pdf_index(x_pos, y_pos);
     }
 
@@ -73,12 +73,12 @@ class Warp2DEnvMap final : public BackgroundLight {
 
     inline float sample_pdf_index(size_t x, size_t y) const {
         float x_prefix_size = x_prefix_sum[y][x_prefix_sum.size()-1];
-        float x_start = x == 0 ? 0.0 : x_prefix_sum[y][x-1];
+        float x_start = x == 0 ? 0.0f : x_prefix_sum[y][x-1];
         float x_end = x_prefix_sum[y][x];
         float x_size = x_end - x_start;
 
         float y_prefix_size = y_prefix_sum[y_prefix_sum.size()-1];
-        float y_start = y == 0 ? 0.0 : y_prefix_sum[y-1];
+        float y_start = y == 0 ? 0.0f : y_prefix_sum[y-1];
         float y_end = y_prefix_sum[y];
         float y_size = y_end - y_start;
         
@@ -95,9 +95,9 @@ public:
         m_mis_compensation = m_mis_compensation_strength > 0.001 ? true : false;
 
         //Calculate base image brightness and average brightness
-        float one_pixel_size = 1.0 / float(SIZE_PIXEL_WARP);
-        float half_pixel_size = one_pixel_size / 2.0; 
-        std::vector<std::vector<float>> weights = std::vector<std::vector<float>>(SIZE_PIXEL_WARP, std::vector<float>(SIZE_PIXEL_WARP, 0.0));
+        float one_pixel_size = 1.f / SIZE_PIXEL_WARP;
+        float half_pixel_size = 0.5f * one_pixel_size; 
+        std::vector<std::vector<float>> weights = std::vector<std::vector<float>>(SIZE_PIXEL_WARP, std::vector<float>(SIZE_PIXEL_WARP, 0.0f));
         float sum = 0.0f;
         for (size_t y = 0; y < SIZE_PIXEL_WARP; y++){
             float temp_sum = 0.0f; //We use this to avoid numeric problems 
@@ -139,7 +139,7 @@ public:
         for (size_t y = 0; y < SIZE_PIXEL_WARP; y++){
             float x_data = x_prefix_sum[y][SIZE_PIXEL_WARP-1];
             float y_pos = float(y) * one_pixel_size + half_pixel_size;
-            float y_pos_angle = (y_pos - 0.5) * Pi; 
+            float y_pos_angle = (y_pos - 0.5f) * Pi; 
             float t_x_data = x_data * abs(cos(y_pos_angle)) / float (SIZE_PIXEL_WARP); //We divide by the SIZE_PIXEL_WARP to avoid nummeric instabilty
             float y_weight = t_x_data;
             prefix_sum += y_weight;

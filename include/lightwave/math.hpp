@@ -100,6 +100,8 @@ inline float mix(float a, float b, float t) { return a + t * (b - a); }
  * sin = safe_sqrt(1 - sqr(cos)) @endcode.
  */
 inline float safe_sqrt(float v) { return v <= 0 ? 0 : std::sqrt(v); }
+
+inline double safe_sqrt(double v) { return v <= 0 ? 0 : std::sqrt(v); }
 /**
  * @brief Safe arcus cosine function, which clamps the input to -1 to +1.
  * @note Use this when floating point errors need to be avoided.
@@ -120,20 +122,6 @@ inline float safe_powf(float a, float b) {
         return 0.0f;
     }
     return powf(a, b);
-}
-/// @brief Calculates the radical inverse of the given number.
-inline float radical_inverse(int base, int a) {
-    const float invBase     = 1.0f / (float) base;
-    uint64_t reversedDigits = 0;
-    float invBaseN          = 1;
-    while (a) {
-        uint64_t next  = a / base;
-        uint64_t digit = a - next * base;
-        reversedDigits = reversedDigits * base + digit;
-        invBaseN *= invBase;
-        a = next;
-    }
-    return std::min(reversedDigits * invBaseN, 1 - Epsilon);
 }
 
 /// @brief Solves a quadratic equation of the form @code a * x^2 + b * x + c = 0
@@ -1068,8 +1056,8 @@ struct Context {
 
     // Only read-valid if curvesIndex >= 0
     Vector tangentNormal = Vector(0);
-    float hairThickness  = 0;
-    float hairIntercept  = -1; // Between 0 and 1
+    float hairThickness  = 0.f;
+    float hairIntercept  = -1.f; // Between 0 and 1
 };
 
 /// @brief Describes an intersection of a ray with a surface.

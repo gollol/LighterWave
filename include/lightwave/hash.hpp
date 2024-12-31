@@ -22,7 +22,7 @@ public:
     /// @brief Updates the state by hashing a given integer.
     template <typename T> fnv1a &operator<<(T data) {
         for (size_t pos = 0; pos < sizeof(T); pos++) {
-            uint8_t byte = data >> (8 * pos);
+            uint8_t byte = static_cast<uint8_t>(data >> (8 * pos));
             hash         = (hash ^ byte) * 0x100000001b3;
         }
         return *this;

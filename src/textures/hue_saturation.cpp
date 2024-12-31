@@ -27,7 +27,7 @@ public:
         const Color origColor = this->m_original->evaluate(uv, cont);
         Color hsvColor = convertRGBToHSV(origColor);
         
-        hsvColor.r() = fmod(hsvColor.r() + this->m_hue->scalar(uv, cont) + 0.5f, 1);
+        hsvColor.r() = static_cast<float>(fmod(hsvColor.r() + this->m_hue->scalar(uv, cont) + 0.5f, 1));
         hsvColor.g() = saturate(hsvColor.g() * this->m_saturation->scalar(uv, cont));
         hsvColor.b() *= this->m_value->scalar(uv, cont);
 

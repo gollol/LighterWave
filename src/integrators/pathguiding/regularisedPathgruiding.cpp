@@ -466,7 +466,7 @@ class RegularisedPathGuider : public SamplingIntegrator {
                                     1));
         }
         default:
-            return Color(0);
+            break;
         }
         return Color(0);
     }
@@ -767,7 +767,7 @@ class RegularisedPathGuider : public SamplingIntegrator {
             // assuming all bsdfs are smooth
             float regularizedWoPdf, regularizedDTreePdf;
             float woPdf, dTreePdf;
-            Color regularisedPathLight = Color(0.0f);
+            Color regularisedPathLight = Color(0);
 
             // Regularised BSDFSample or guided sample
             auto regularisedMaterialSample =
@@ -787,13 +787,13 @@ class RegularisedPathGuider : public SamplingIntegrator {
                 regularisedRay.direction = regularisedMaterialSample.wi;
 
                 auto regIts = m_scene->intersect(regularisedRay, rng, cont);
-                if (auto E = regIts.evaluateEmission(cont)) {
+                if (auto Ereg = regIts.evaluateEmission(cont)) {
                     const auto misWeight =
-                        !m_nee || (E.pdf == 0) ? 1
-                        : m_mis ? miWeight(regularizedWoPdf, E.pdf)
+                        !m_nee || (Ereg.pdf == 0) ? 1
+                        : m_mis ? miWeight(regularizedWoPdf, Ereg.pdf)
                                 : 0;
                     regularisedPathLight +=
-                        misWeight * regularisedMaterialSample.weight * E.value;
+                        misWeight * regularisedMaterialSample.weight * Ereg.value;
                 }
             }
 
@@ -868,7 +868,7 @@ class RegularisedPathGuider : public SamplingIntegrator {
         }
         // splat power (only necessary when ADRRS will be used)
         if (m_rrsMethod == ERRSMode::EADRRS && numSamples > 0) {
-            dTree->splatLrEstimate(res, numSamples);
+            dTree->splatLrEstimate(res, 1.f * numSamples);
         }
         return res / splittingFactor;
     }

@@ -24,8 +24,8 @@ Vector abs(const Vector &vec) {
     return Vector(abs(vec[0]), abs(vec[1]), abs(vec[2]));
 }
 
-float Sign(lightwave::Vector2 p1, lightwave::Vector2 p2,
-           lightwave::Vector2 p3) {
+float Sign(Vector2 p1, Vector2 p2,
+           Vector2 p3) {
     return (p1.x() - p3.x()) * (p2.y() - p3.y()) -
            (p2.x() - p3.x()) * (p1.y() - p3.y());
 }
@@ -36,8 +36,8 @@ enum CollisionType {
     SquareOverlappingTriangle
 };
 
-bool PointInTriangle(lightwave::Vector2 pt, lightwave::Vector2 v1,
-                     lightwave::Vector2 v2, lightwave::Vector2 v3) {
+bool PointInTriangle(Vector2 pt, Vector2 v1,
+                     Vector2 v2, Vector2 v3) {
     float d1, d2, d3;
     bool has_neg, has_pos;
 
@@ -51,35 +51,35 @@ bool PointInTriangle(lightwave::Vector2 pt, lightwave::Vector2 v1,
     return !(has_neg && has_pos);
 }
 
-bool Contains(lightwave::Vector2 p1, lightwave::Vector2 p2,
-              lightwave::Vector2 p3, float w) {
-    return PointInTriangle(lightwave::Vector2(-w, -w), p1, p2, p3) &&
-           PointInTriangle(lightwave::Vector2(w, -w), p1, p2, p3) &&
-           PointInTriangle(lightwave::Vector2(-w, w), p1, p2, p3) &&
-           PointInTriangle(lightwave::Vector2(w, w), p1, p2, p3);
+bool Contains(Vector2 p1, Vector2 p2,
+              Vector2 p3, float w) {
+    return PointInTriangle(Vector2(-w, -w), p1, p2, p3) &&
+           PointInTriangle(Vector2(w, -w), p1, p2, p3) &&
+           PointInTriangle(Vector2(-w, w), p1, p2, p3) &&
+           PointInTriangle(Vector2(w, w), p1, p2, p3);
 }
 
 /// @brief Returns if and how a quad defined by its center point c and width w
 /// collides with the 2D triangle defined by the positions p1, p2, p3 and the
 /// normals n1, n2, n3
-CollisionType Collision(lightwave::Vector2 p1, lightwave::Vector2 p2,
-                        lightwave::Vector2 p3, lightwave::Vector2 n1,
-                        lightwave::Vector2 n2, lightwave::Vector2 n3,
-                        lightwave::Vector2 c, float w) {
+CollisionType Collision(Vector2 p1, Vector2 p2,
+                        Vector2 p3, Vector2 n1,
+                        Vector2 n2, Vector2 n3,
+                        Vector2 c, float w) {
     p1 -= c;
     p2 -= c;
     p3 -= c;
 
-    bool b1 = std::min(w, std::max(p3.x(), std::max(p1.x(), p2.x()))) <=
-              std::max(-w, std::min(p1.x(), std::min(p2.x(), p3.x())));
-    bool b2 = std::min(w, std::max(p3.y(), std::max(p1.y(), p2.y()))) <=
-              std::max(-w, std::min(p1.y(), std::min(p2.y(), p3.y())));
+    bool b1 = min(w, max(p3.x(), max(p1.x(), p2.x()))) <=
+             max(-w, min(p1.x(), min(p2.x(), p3.x())));
+    bool b2 = min(w, max(p3.y(), max(p1.y(), p2.y()))) <=
+             max(-w, min(p1.y(), min(p2.y(), p3.y())));
 
-    float d1 = n1.dot(p1 + lightwave::Vector2(n1.x() >= 0.0f ? w : -w,
+    float d1 = n1.dot(p1 + Vector2(n1.x() >= 0.0f ? w : -w,
                                               n1.y() >= 0.0f ? w : -w));
-    float d2 = n2.dot(p2 + lightwave::Vector2(n2.x() >= 0.0f ? w : -w,
+    float d2 = n2.dot(p2 + Vector2(n2.x() >= 0.0f ? w : -w,
                                               n2.y() >= 0.0f ? w : -w));
-    float d3 = n3.dot(p3 + lightwave::Vector2(n3.x() >= 0.0f ? w : -w,
+    float d3 = n3.dot(p3 + Vector2(n3.x() >= 0.0f ? w : -w,
                                               n3.y() >= 0.0f ? w : -w));
 
     if (b1 || b2 || d1 <= 0.0f || d2 <= 0.0f || d3 <= 0.0f)
@@ -94,20 +94,20 @@ CollisionType Collision(lightwave::Vector2 p1, lightwave::Vector2 p2,
 // MARK: - Affine Arithmetic stuff
 
 struct AffineVector {
-    lightwave::Vector x_c;
-    lightwave::Vector x_u;
-    lightwave::Vector x_v;
-    lightwave::Vector x_w;
+    Vector x_c;
+    Vector x_u;
+    Vector x_v;
+    Vector x_w;
 
     AffineVector() {
-        x_c = lightwave::Vector();
-        x_u = lightwave::Vector();
-        x_v = lightwave::Vector();
-        x_w = lightwave::Vector();
+        x_c = Vector();
+        x_u = Vector();
+        x_v = Vector();
+        x_w = Vector();
     }
 
-    AffineVector(const lightwave::Vector &a, const lightwave::Vector &b,
-                 const lightwave::Vector &c, const lightwave::Vector &d) {
+    AffineVector(const Vector &a, const Vector &b,
+                 const Vector &c, const Vector &d) {
         x_c = a;
         x_u = b;
         x_v = c;
@@ -115,19 +115,19 @@ struct AffineVector {
     }
 
     AffineVector add(const AffineVector &other) {
-        lightwave::Vector res_c = x_c + other.x_c;
-        lightwave::Vector res_u = x_u + other.x_u;
-        lightwave::Vector res_v = x_v + other.x_v;
-        lightwave::Vector res_w = x_w + other.x_w;
+        Vector res_c = x_c + other.x_c;
+        Vector res_u = x_u + other.x_u;
+        Vector res_v = x_v + other.x_v;
+        Vector res_w = x_w + other.x_w;
 
         return AffineVector(res_c, res_u, res_v, res_w);
     }
 
     AffineVector dot(const AffineVector &other) {
-        lightwave::Vector res_c = x_c * other.x_c;
-        lightwave::Vector res_u = x_u * other.x_c + x_c * other.x_u;
-        lightwave::Vector res_v = x_v * other.x_c + x_c * other.x_v;
-        lightwave::Vector res_w =
+        Vector res_c = x_c * other.x_c;
+        Vector res_u = x_u * other.x_c + x_c * other.x_u;
+        Vector res_v = x_v * other.x_c + x_c * other.x_v;
+        Vector res_w =
             abs(x_w * other.x_c) + abs(x_c * other.x_w) +
             (abs(x_u) + abs(x_v) + x_w) *
                 (abs(other.x_u) + abs(other.x_v) + other.x_w);
@@ -135,16 +135,16 @@ struct AffineVector {
         return AffineVector(res_c, res_u, res_v, res_w);
     }
 
-    AffineVector scalarMul(const lightwave::Vector4 &vec) {
-        lightwave::Vector res_c = vec[0] * x_c;
-        lightwave::Vector res_u = vec[1] * x_u;
-        lightwave::Vector res_v = vec[2] * x_v;
-        lightwave::Vector res_w = vec[3] * x_w;
+    AffineVector scalarMul(const Vector4 &vec) {
+        Vector res_c = vec[0] * x_c;
+        Vector res_u = vec[1] * x_u;
+        Vector res_v = vec[2] * x_v;
+        Vector res_w = vec[3] * x_w;
 
         return AffineVector(res_c, res_u, res_v, res_w);
     }
 
-    AffineVector matrixMul(const lightwave::Matrix3x3 &mat) {
+    AffineVector matrixMul(const Matrix3x3 &mat) {
         float a = mat(0, 0);
         float b = mat(0, 1);
         float c = mat(0, 2);
@@ -157,16 +157,16 @@ struct AffineVector {
         float h = mat(2, 1);
         float i = mat(2, 2);
 
-        lightwave::Vector res_c(a * x_c[0] + b * x_c[1] + c * x_c[2],
+        Vector res_c(a * x_c[0] + b * x_c[1] + c * x_c[2],
                                 d * x_c[0] + e * x_c[1] + f * x_c[2],
                                 g * x_c[0] + h * x_c[1] + i * x_c[2]);
-        lightwave::Vector res_u(a * x_u[0] + b * x_u[1] + c * x_u[2],
+        Vector res_u(a * x_u[0] + b * x_u[1] + c * x_u[2],
                                 d * x_u[0] + e * x_u[1] + f * x_u[2],
                                 g * x_u[0] + h * x_u[1] + i * x_u[2]);
-        lightwave::Vector res_v(a * x_v[0] + b * x_v[1] + c * x_v[2],
+        Vector res_v(a * x_v[0] + b * x_v[1] + c * x_v[2],
                                 d * x_v[0] + e * x_v[1] + f * x_v[2],
                                 g * x_v[0] + h * x_v[1] + i * x_v[2]);
-        lightwave::Vector res_w(a * x_w[0] + b * x_w[1] + c * x_w[2],
+        Vector res_w(a * x_w[0] + b * x_w[1] + c * x_w[2],
                                 d * x_w[0] + e * x_w[1] + f * x_w[2],
                                 g * x_w[0] + h * x_w[1] + i * x_w[2]);
 
@@ -254,20 +254,20 @@ struct MinMaxMipmap {
             for (int x = 0; x < maxResolution.x(); x++) {
 
                 float a = texture->scalar(
-                    Point2((x + 0.0f) / (float) maxResolution.x(),
-                           (y + 0.0f) / (float) maxResolution.y()),
+                    Point2((x + 0.0f) / maxResolution.x(),
+                           (y + 0.0f) / maxResolution.y()),
                     cont);
                 float b = texture->scalar(
-                    Point2((x + 1.0f) / (float) maxResolution.x(),
-                           (y + 0.0f) / (float) maxResolution.y()),
+                    Point2((x + 1.0f) / maxResolution.x(),
+                           (y + 0.0f) / maxResolution.y()),
                     cont);
                 float c = texture->scalar(
-                    Point2((x + 0.0f) / (float) maxResolution.x(),
-                           (y + 1.0f) / (float) maxResolution.y()),
+                    Point2((x + 0.0f) / maxResolution.x(),
+                           (y + 1.0f) / maxResolution.y()),
                     cont);
                 float d = texture->scalar(
-                    Point2((x + 1.0f) / (float) maxResolution.x(),
-                           (y + 1.0f) / (float) maxResolution.y()),
+                    Point2((x + 1.0f) / maxResolution.x(),
+                           (y + 1.0f) / maxResolution.y()),
                     cont);
 
                 float minHeight = min(a, min(b, min(c, d)));
@@ -280,10 +280,9 @@ struct MinMaxMipmap {
 
         // Compute the desired number of levels and then compute them using
         // downsampling
-        m_levels = static_cast<uint32_t>(std::floor(
-                       std::log2(std::max(m_images[0]->resolution().x(),
-                                          m_images[0]->resolution().y())))) +
-                   1;
+        m_levels = static_cast<uint32_t>(floor(
+                       log2(max(m_images[0]->resolution().x(),
+                                m_images[0]->resolution().y())))) + 1;
         int mipWidth  = m_images[0]->resolution().x();
         int mipHeight = m_images[0]->resolution().y();
         for (int i = 1; i < m_levels; i++) {
@@ -540,45 +539,45 @@ protected:
         const auto &vertex1  = m_vertices[triangle[1]];
         const auto &vertex2  = m_vertices[triangle[2]];
 
-        lightwave::Vector p1(vertex0.position.data()),
+        Vector p1(vertex0.position.data()),
             p2(vertex1.position.data()), p3(vertex2.position.data());
-        lightwave::Vector n1(vertex0.normal.decompress().data()),
+        Vector n1(vertex0.normal.decompress().data()),
             n2(vertex1.normal.decompress().data()),
             n3(vertex2.normal.decompress().data());
 
-        lightwave::Matrix3x3 t_uv = m_invUVs[primitiveIndex];
-        lightwave::Matrix3x3 pos(
+        Matrix3x3 t_uv = m_invUVs[primitiveIndex];
+        Matrix3x3 pos(
             { p1[0], p2[0], p3[0], p1[1], p2[1], p3[1], p1[2], p2[2], p3[2] });
-        lightwave::Matrix3x3 normal(
+        Matrix3x3 normal(
             { n1[0], n2[0], n3[0], n1[1], n2[1], n3[1], n1[2], n2[2], n3[2] });
 
-        float W  = m_minmaxMipmap.m_images[0]->resolution().x(),
-              H  = m_minmaxMipmap.m_images[0]->resolution().y();
-        float ii = texel.ij[0], j = texel.ij[1], k = texel.LoD;
-        lightwave::Vector x_c =
-            powf(2.0f, k) *
-            lightwave::Vector((ii + 0.5f) / W, (j + 0.5f) / H, 1.0f);
+        int W  = m_minmaxMipmap.m_images[0]->resolution().x();
+        int H  = m_minmaxMipmap.m_images[0]->resolution().y();
+        int ii = texel.ij[0], j = texel.ij[1], k = texel.LoD;
+        Vector x_c =
+            powf(2.0f, 1.f * k) *
+            Vector((ii + 0.5f) / W, (j + 0.5f) / H, 1.0f);
         x_c[2] = 1.0f;
-        lightwave::Vector x_u =
-            powf(2.0f, k) * lightwave::Vector(1.0f / (2.0f * W), 0.0f, 0.0f);
-        lightwave::Vector x_v =
-            powf(2.0f, k) * lightwave::Vector(0.0f, 1.0f / (2.0f * H), 0.0f);
-        lightwave::Vector x_w =
-            powf(2.0f, k) * lightwave::Vector(0.0f, 0.0f, 0.0f);
+        Vector x_u =
+            powf(2.0f, 1.f * k) * Vector(1.0f / (2.0f * W), 0.0f, 0.0f);
+        Vector x_v =
+            powf(2.0f, 1.f * k) * Vector(0.0f, 1.0f / (2.0f * H), 0.0f);
+        Vector x_w =
+            powf(2.0f, 1.f * k) * Vector(0.0f, 0.0f, 0.0f);
 
-        lightwave::Matrix3x3 posTransform    = pos * t_uv;
-        lightwave::Matrix3x3 normalTransform = normal * t_uv;
+        Matrix3x3 posTransform    = pos * t_uv;
+        Matrix3x3 normalTransform = normal * t_uv;
 
         Color minmax = m_minmaxMipmap.m_images[k]->get(Point2i(ii, j));
 
         float min = m_offset + m_scaling * (minmax.r() - m_bias);
         float max = m_offset + m_scaling * (minmax.g() - m_bias);
-        lightwave::Vector h_c =
-            0.5f * lightwave::Vector(max + min, max + min, max + min);
-        lightwave::Vector h_u = lightwave::Vector(0, 0, 0);
-        lightwave::Vector h_v = lightwave::Vector(0, 0, 0);
-        lightwave::Vector h_w =
-            0.5f * lightwave::Vector(max - min, max - min, max - min);
+        Vector h_c =
+            0.5f * Vector(max + min, max + min, max + min);
+        Vector h_u = Vector(0.f);
+        Vector h_v = Vector(0.f);
+        Vector h_w =
+            0.5f * Vector(max - min, max - min, max - min);
         AffineVector h(h_c, h_u, h_v, h_w);
 
         AffineVector uv(x_c, x_u, x_v, x_w);
@@ -637,7 +636,7 @@ protected:
             Vector2 texelCenter =
                 Vector2((float) texel.ij.x() + 0.5f,
                         (float) texel.ij.y() + 0.5f) /
-                Vector2(m_minmaxMipmap.m_images[texel.LoD]->resolution().x());
+                Vector2((float) m_minmaxMipmap.m_images[texel.LoD]->resolution().x());
             CollisionType collisionResult =
                 Collision(p1, p2, p3, n1, n2, n3, texelCenter, texelHalfWidth);
 
@@ -646,7 +645,7 @@ protected:
             } else {
                 Bounds aabb = buildAABBFromTexel(primitiveIndex, texel);
                 Intersection tempIntersection;
-                if (intersectAABB(aabb, ray, tempIntersection) == false) {
+                if (!intersectAABB(aabb, ray, tempIntersection)) {
                     texel.next();
                 } else if (texel.LoD <= m_targetLoD) {
 
@@ -722,19 +721,19 @@ protected:
                         float v1 = vertex0.uv[1], v2 = vertex1.uv[1],
                               v3 = vertex2.uv[1];
 
-                        lightwave::Vector pp1(vertex0.position.data()),
+                        Vector pp1(vertex0.position.data()),
                             pp2(vertex1.position.data()),
                             pp3(vertex2.position.data());
-                        lightwave::Vector nn1(
+                        Vector nn1(
                             vertex0.normal.decompress().data()),
                             nn2(vertex1.normal.decompress().data()),
                             nn3(vertex2.normal.decompress().data());
 
-                        lightwave::Matrix3x3 t_uv_inv(
+                        Matrix3x3 t_uv_inv(
                             { u1, u2, u3, v1, v2, v3, 1, 1, 1 });
-                        lightwave::Matrix3x3 t_uv =
+                        Matrix3x3 t_uv =
                             invert(t_uv_inv).value_or(Matrix3x3::identity());
-                        lightwave::Matrix3x3 pos({ pp1[0],
+                        Matrix3x3 pos({ pp1[0],
                                                    pp2[0],
                                                    pp3[0],
                                                    pp1[1],
@@ -743,7 +742,7 @@ protected:
                                                    pp1[2],
                                                    pp2[2],
                                                    pp3[2] });
-                        lightwave::Matrix3x3 normal({ nn1[0],
+                        Matrix3x3 normal({ nn1[0],
                                                       nn2[0],
                                                       nn3[0],
                                                       nn1[1],
@@ -887,7 +886,7 @@ public:
             float u1 = vertex0.uv[0], u2 = vertex1.uv[0], u3 = vertex2.uv[0];
             float v1 = vertex0.uv[1], v2 = vertex1.uv[1], v3 = vertex2.uv[1];
 
-            lightwave::Matrix3x3 t_uv({ u1, u2, u3, v1, v2, v3, 1, 1, 1 });
+            Matrix3x3 t_uv({ u1, u2, u3, v1, v2, v3, 1, 1, 1 });
             m_invUVs.push_back(invert(t_uv).value_or(Matrix3x3::identity()));
 
             Matrix2x2 r = Matrix2x2({ 0.0f, -1.0f, 1.0f, 0.0f });
@@ -913,7 +912,7 @@ public:
                 Vector2 texelCenter =
                     Vector2((float) texel.ij.x() + 0.5f,
                             (float) texel.ij.y() + 0.5f) /
-                    Vector2(
+                    Vector2((float)
                         m_minmaxMipmap.m_images[texel.LoD]->resolution().x());
                 CollisionType collisionResult = Collision(
                     p1, p2, p3, n1, n2, n3, texelCenter, texelHalfWidth);

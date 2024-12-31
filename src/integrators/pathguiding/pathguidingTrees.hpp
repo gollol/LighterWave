@@ -46,10 +46,10 @@ public:
         ++m_state.iter;
         m_state.prevsecondmoment = m_state.secondMoment;
 
-        float actualLearningRate =
-            m_hparams.learningRate *
+        float actualLearningRate = (float)
+            (m_hparams.learningRate *
             safe_sqrt(1 - std::pow(m_hparams.beta2, m_state.iter)) /
-            (1 - std::pow(m_hparams.beta1, m_state.iter));
+            (1.f - std::pow(m_hparams.beta1, m_state.iter)));
         m_state.firstMoment = m_hparams.beta1 * m_state.firstMoment +
                               (1 - m_hparams.beta1) * gradient;
         m_state.secondMoment = m_hparams.beta2 * m_state.secondMoment +
@@ -247,13 +247,13 @@ public:
         }
 
         if (isLeaf(index)) {
-            Point2 sample = sampler->next2D();
-            return Point2(origin.x() + 0.5f * sample.x(),
-                          origin.y() + 0.5f * sample.y());
+            Point2 sample2D = sampler->next2D();
+            return Point2(origin.x() + 0.5f * sample2D.x(),
+                          origin.y() + 0.5f * sample2D.y());
         } else {
-            Point2 sample = nodes[child(index)].sample(sampler, nodes);
-            return Point2(origin.x() + 0.5f * sample.x(),
-                          origin.y() + 0.5f * sample.y());
+            Point2 sample2D = nodes[child(index)].sample(sampler, nodes);
+            return Point2(origin.x() + 0.5f * sample2D.x(),
+                          origin.y() + 0.5f * sample2D.y());
         }
     }
 
@@ -383,7 +383,7 @@ public:
                         p, irradiance * statisticalWeight, m_nodes);
                 } else {
                     int depth  = depthAt(p);
-                    float size = std::pow(0.5f, depth);
+                    float size = (float) std::pow(0.5f, depth);
 
                     Point2 origin = p;
                     origin.x() -= size / 2;
@@ -464,9 +464,9 @@ public:
             for (int i = 0; i < 4; ++i) {
                 const QuadTreeNode &otherNode =
                     sNode.otherDTree->m_nodes[sNode.otherNodeIndex];
-                const float fraction = total > 0 ? (otherNode.sum(i) / total)
-                                                 : std::pow(0.25f, sNode.depth);
-                assert(fraction <= 1.0f + Epsilon);
+                const double fraction = total > 0.f ? (otherNode.sum(i) / total)
+                                                    : std::pow(0.25f, sNode.depth);
+                assert(fraction <= 1.0 + Epsilon);
 
                 if (sNode.depth < newMaxDepth &&
                     fraction > subdivisionThreshold) {

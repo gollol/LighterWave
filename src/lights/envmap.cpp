@@ -74,7 +74,7 @@ class EnvironmentMap final : public BackgroundLight {
             }
 
             // normalize everything
-            double norm = (m_resolution * m_resolution) / pdfAcc;
+            float norm = static_cast<float>((m_resolution * m_resolution) / pdfAcc);
             for (auto &pdf : m_pdfs)
                 pdf *= norm;
 

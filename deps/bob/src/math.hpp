@@ -298,7 +298,7 @@ struct Snorm {
 
     Snorm() : m_bits(0) {}
 
-    Snorm(int bits) : m_bits(bits) {}
+    Snorm(int bits) : m_bits(static_cast<int16_t>(bits)) {}
     Snorm(float value) {
         m_bits = (int16_t) round(value * ((1 << (SnormBits - 1)) - 1));
     }

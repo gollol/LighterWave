@@ -30,7 +30,7 @@ inline float negate_if(float val, int condition) {
 
 inline float grad1(int hash, float x) {
     int h   = hash & 15;
-    float g = 1 + (h & 7);
+    float g = 1.f + static_cast<float>(h & 7);
     return negate_if(g, h & 8) * x;
 }
 
@@ -182,7 +182,7 @@ inline float snoise_1d(float p) {
     return noise_scale1(perlin_1d(p));
 }
 
-inline float noise_1d(float p) { return 0.5 * snoise_1d(p) + 0.5f; }
+inline float noise_1d(float p) { return 0.5f * snoise_1d(p) + 0.5f; }
 
 inline float snoise_2d(Point2 p) {
     Vector2 precision_correction =

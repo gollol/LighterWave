@@ -22,8 +22,8 @@ public:
     std::vector<ref<Lens>> m_elementInterfaces;
 
     Realistic(const Properties &properties) : Camera(properties) {
-        m_sensorSize.x() = 0.001 * properties.get<float>("sensorWidth", 36);
-        m_sensorSize.y() = 0.001 * properties.get<float>("sensorHeight", 24);
+        m_sensorSize.x() = 0.001f * properties.get<float>("sensorWidth", 36);
+        m_sensorSize.y() = 0.001f * properties.get<float>("sensorHeight", 24);
         m_focusDistance  = properties.get<float>("focusDistance");
 
         m_elementInterfaces = properties.getChildren<Lens>();

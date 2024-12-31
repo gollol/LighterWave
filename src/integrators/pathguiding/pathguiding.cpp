@@ -460,7 +460,7 @@ class PathGuider : public SamplingIntegrator {
                                     1));
         }
         default:
-            return Color(0);
+            break;
         }
         return Color(0);
     }
@@ -785,7 +785,7 @@ class PathGuider : public SamplingIntegrator {
         }
         // splat power (only necessary when ADRRS will be used)
         if (m_rrsMethod == ERRSMode::EADRRS && numSamples > 0) {
-            dTree->splatLrEstimate(res, numSamples);
+            dTree->splatLrEstimate(res, 1.f * numSamples);
         }
         return res / splittingFactor;
     }

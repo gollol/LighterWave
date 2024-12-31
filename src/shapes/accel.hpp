@@ -37,9 +37,9 @@ class AccelerationStructure : public Shape {
     /// @brief The number of bits used per compressed point component.
     static constexpr uint32_t cBits = 12;
     /// @brief The biggest representable value for a point component.
-    static constexpr uint32_t c = static_cast<uint32_t>((1 << cBits) - 1);
+    static constexpr uint32_t cMax = static_cast<uint32_t>((1 << cBits) - 1);
     /// @brief The inverse of c.
-    static constexpr float cInv = 1.0f / c;
+    static constexpr float cInv = 1.0f / cMax;
 
     /// @brief The extends of the uncompressed root node aka the diagonal vector
     /// of the BVH.
@@ -61,13 +61,13 @@ class AccelerationStructure : public Shape {
         CompressedPoint() = default;
         CompressedPoint(const Vector &p, Position pos) {
             if (pos == Lower) {
-                x = (uint32_t) floor(clamp(p.x(), 0.0f, 1.0f) * c);
-                y = (uint32_t) floor(clamp(p.y(), 0.0f, 1.0f) * c);
-                z = (uint32_t) floor(clamp(p.z(), 0.0f, 1.0f) * c);
+                x = (uint32_t) floor(clamp(p.x(), 0.0f, 1.0f) * cMax);
+                y = (uint32_t) floor(clamp(p.y(), 0.0f, 1.0f) * cMax);
+                z = (uint32_t) floor(clamp(p.z(), 0.0f, 1.0f) * cMax);
             } else {
-                x = (uint32_t) ceil(clamp(p.x(), 0.0f, 1.0f) * c);
-                y = (uint32_t) ceil(clamp(p.y(), 0.0f, 1.0f) * c);
-                z = (uint32_t) ceil(clamp(p.z(), 0.0f, 1.0f) * c);
+                x = (uint32_t) ceil(clamp(p.x(), 0.0f, 1.0f) * cMax);
+                y = (uint32_t) ceil(clamp(p.y(), 0.0f, 1.0f) * cMax);
+                z = (uint32_t) ceil(clamp(p.z(), 0.0f, 1.0f) * cMax);
             }
         }
 
@@ -215,8 +215,8 @@ class AccelerationStructure : public Shape {
         TransformedRay(const Ray &r, Intersection &its,
                        const AccelerationStructure &as) {
             origin = (r.origin - Point(as.m_lowerBound)) * as.m_invExtends *
-                     static_cast<float>(c);
-            Vector dir = r.direction * as.m_invExtends * static_cast<float>(c);
+                     static_cast<float>(cMax);
+            Vector dir = r.direction * as.m_invExtends * static_cast<float>(cMax);
 
             length       = dir.length();
             invDirection = Vector(1.0f) / (dir / length);
@@ -676,7 +676,7 @@ protected:
         /// cluster
         /// @return The children of the root cluster
         std::vector<NodeIndex> computeRootCluster(BNode &root) {
-            int clusterSize  = ceil(sqrt(root.subtreeSize + 1.0f) - 1.0f);
+            int clusterSize  = int(ceil(sqrt(root.subtreeSize + 1.0f))) - 1;
             root.subtreeSize = clusterSize;
 
             std::vector<NodeIndex> children;

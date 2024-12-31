@@ -74,12 +74,11 @@ file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
     "deps/catch2/catch_amalgamated.cpp"
     "src/**/*.cpp"
     "src/**/*.hpp"
-    "unittests/**/*.cpp"
     "include/*.hpp"
 )
 
 # ######################
-set(MY_TARGET_NAME unnamed) # Change `unnamed` to your favorite executable name
+set(MY_TARGET_NAME Renderwave)
 
 # ######################
 find_package(OpenImageDenoise)

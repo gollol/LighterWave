@@ -24,8 +24,8 @@ float F0_from_ior(const float eta) {
 }
 
 float ior_from_F0(float f0) {
-    float sqrt_f0 = sqrt(clamp(f0, 0.0, 0.99));
-    return (1.0 + sqrt_f0) / (1.0 - sqrt_f0);
+    float sqrt_f0 = sqrt(clamp(f0, 0.f, 0.99f));
+    return (1.0f + sqrt_f0) / (1.0f - sqrt_f0);
 }
 
 struct DiffuseLobe {
@@ -236,7 +236,7 @@ class Principled : public Bsdf {
             f0 *= 2.0f * specularLevel;
             eta = ior_from_F0(f0);
             if (ior < 1.0f) {
-                eta = 1.0 / eta;
+                eta = 1.0f / eta;
             }
         }
 
