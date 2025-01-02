@@ -1,9 +1,11 @@
 # Renderwave
 
-Renderwave is a fork of [Saarland University's path tracer](https://graphics.cg.uni-saarland.de/courses/cg1-2023/index.html) lightwave, which we extended to the presented version as part of the seminar [Advanced Rendering Techniques (ART)](https://graphics.cg.uni-saarland.de/courses/art-2024/index.html) during the 2024 summer semester. Due to time constraints, there are still some problems for some features but most of the upcoming functionality works.
+Renderwave is a fork of [Saarland University's path tracer](https://graphics.cg.uni-saarland.de/courses/cg1-2023/index.html) lightwave,
+which we extended to the presented version as part of the seminar [Advanced Rendering Techniques (ART)](https://graphics.cg.uni-saarland.de/courses/art-2024/index.html) during the 2024 summer semester.
+Due to time constraints, there are still some problems for some features but most of the upcoming functionality works.
 
 ## Features implemented by me
-Apart from the 'basic' functionality we had to implement during the Computer Graphics 1 lecture, during ART I primarily worked on:
+Apart from the 'basic' functionality we had to implement during the Computer Graphics 1 lecture, during ART I was primarily working on:
 * Textures
   * Color Ramp
   * Info texture / nodes
@@ -39,10 +41,6 @@ Apart from the 'basic' functionality we had to implement during the Computer Gra
 We also recreated an animated scene of 'Rogue One: A Star Wars Story' in Blender but ran out of time to actually render in lightwave.
 
 ## Features provided by lightwave
-Out of the box, lightwave is unable to produce any images, as it lacks all necessary rendering functionality to do so.
-It is your job to write the various components that make this possible: You will write camera models, intersect shapes, program their appearance, and orchestrate how rays are traced throughout the virtual scene.
-Lightwave supports you in this endeavour by supplying tedious to implement boilerplate, including:
-
 * Modularity
   * Modern APIs flexible enough for sophisticated algorithms
   * Shapes, materials, etc are implemented as plugins
@@ -60,16 +58,15 @@ Lightwave supports you in this endeavour by supplying tedious to implement boile
   * Rendering is parallelized across all available cores
   * Parallelized scene loading (image loading, BVH building, etc)
 * BVH acceleration structure
-  * Data-structure and traversal is supplied by us
-  * Split-in-the-middle build is supplied as well
-  * It's your job to implement more sophisticated building
+  * Data-structure and traversal is supplied
+  * Uses the surface area heuristic (SAH) by deault but split-in-the-middle may also be used
 * Useful utilities
   * Thread-safe logger functionality
   * Assert statements that provide extra context
-  * An embedded profiler to identify bottlenecks of your code
+  * An embedded profiler to identify bottlenecks of the code
   * Random number generators
 * A Blender exporter
-  * You can easily build and render your own scenes
+  * So you can easily build and render your own scenes
 
 ## Contributors
 Lightwave was written by [Alexander Rath](https://graphics.cg.uni-saarland.de/people/rath.html), with contributions from [Ömercan Yazici](https://graphics.cg.uni-saarland.de/people/yazici.html) and [Philippe Weier](https://graphics.cg.uni-saarland.de/people/weier.html).
